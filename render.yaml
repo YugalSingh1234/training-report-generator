@@ -1,0 +1,21 @@
+services:
+  - type: web
+    name: training-report-generator
+    env: python
+    plan: free
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn app_clean:app --host 0.0.0.0 --port $PORT
+    healthCheckPath: /health
+    envVars:
+      - key: FLASK_ENV
+        value: production
+      - key: SECRET_KEY
+        generateValue: true
+      - key: MAX_CONTENT_LENGTH
+        value: "31457280"
+      - key: PYTHONPATH
+        value: "."
+    disk:
+      name: uploads-disk
+      mountPath: /opt/render/project/src/static/uploads
+      sizeGB: 1

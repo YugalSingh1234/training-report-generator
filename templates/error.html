@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Error - Training Report Generator</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <div class="error-container">
+            <!-- Error Header -->
+            <div class="error-header">
+                <span class="material-icons error-icon">error</span>
+                <h1>Oops! Something went wrong</h1>
+                <p>We encountered an error while generating your report.</p>
+            </div>
+
+            <!-- Error Details -->
+            <div class="error-details">
+                <div class="error-card">
+                    <div class="error-icon-small">
+                        <span class="material-icons">bug_report</span>
+                    </div>
+                    <div class="error-message">
+                        <h3>Error Details</h3>
+                        <p>{{ error }}</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="action-buttons">
+                <a href="{{ url_for('index') }}" class="btn-primary">
+                    <span class="material-icons">refresh</span>
+                    Try Again
+                </a>
+                
+                <a href="{{ url_for('test_form') }}" class="btn-secondary">
+                    <span class="material-icons">science</span>
+                    Test Simple Form
+                </a>
+            </div>
+
+            <!-- Help Section -->
+            <div class="help-section">
+                <h3>Common Solutions</h3>
+                <div class="help-item">
+                    <span class="material-icons">check_circle</span>
+                    <p>Make sure all required fields are filled out</p>
+                </div>
+                <div class="help-item">
+                    <span class="material-icons">check_circle</span>
+                    <p>Check that uploaded images are valid (JPG, PNG, etc.)</p>
+                </div>
+                <div class="help-item">
+                    <span class="material-icons">check_circle</span>
+                    <p>Ensure file sizes are under 30MB</p>
+                </div>
+                <div class="help-item">
+                    <span class="material-icons">check_circle</span>
+                    <p>Try using the simple test form if issues persist</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
