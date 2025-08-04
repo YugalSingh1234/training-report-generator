@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Type A Training Report Generator</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <!-- Back to Home Button -->
+        <div class="back-to-home">
+            <a href="{{ url_for('home') }}" class="btn-back">
+                <span class="material-icons">arrow_back</span>
+                Back to Home
+            </a>
+        </div>
+        
+        <h1 class="main-title">Type A Training Report Generator</h1>
+        
+        <!-- Tabbed Progress Navigation -->
+        <div class="progress-container">
+            <div class="progress-bar">
+                <div class="progress-step active" id="progress-step-1">
+                    <span class="material-icons">description</span>
+                    Form Details
+                </div>
+                <div class="progress-step" id="progress-step-2">
+                    <span class="material-icons">collections</span>
+                    Gallery & Annexures
+                </div>
+            </div>
+        </div>
+        
+        <div class="tab-content-wrapper">
+        
+        <form action="{{ url_for('type_a.generate_report') }}" method="post" enctype="multipart/form-data" id="multiStepForm">
+            <div class="step active" id="step1">
+                <div class="section-header">
+                    <span class="material-icons section-icon">article</span>
+                    <div>
+                        <div class="section-title">Cover Page Details</div>
+                        <div class="section-subtitle">Basic information for your training report</div>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="cell_name">Select Organization (Template):</label>
+                    <select id="cell_name" name="cell_name" required>
+                        <option value="">Choose your organization...</option>
+                        <option value="RRECL" data-template="1">RRECL (Template 1)</option>
+                        <option value="GEDA" data-template="2">GEDA (Template 2)</option>
+                        <option value="HAREDA" data-template="3">HAREDA (Template 3)</option>
+                        <option value="UREDA" data-template="4">UREDA (Template 4)</option>
+                        <option value="SDA Odisha" data-template="5">SDA Odisha (Template 5)</option>
+                    </select>
+                    <div class="template-info" id="template-info" style="display: none;">
+                        <span class="material-icons">info</span>
+                        <span id="template-text">Template will be selected automatically</span>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="event_date">Event Date:</label>
+                    <input type="date" id="event_date" name="event_date" value="2023-05-29" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="submitted_to">Submitted to:</label>
+                    <input type="text" id="submitted_to" name="submitted_to" placeholder="Enter who this report is submitted to" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="submitted_by">Submitted by:</label>
+                    <input type="text" id="submitted_by" name="submitted_by" placeholder="Enter who is submitting this report" required>
+                </div>
+                
+                <div class="address-container">
+                    <h4>Event Address</h4>
+                    <div class="address-input-group">
+                        <input type="text" id="address_line1" name="address_line1" placeholder="Building/Organization Name" required>
+                    </div>
+                    <div class="address-input-group">
+                        <input type="text" id="address_line2" name="address_line2" placeholder="Street Address, Area">
+                    </div>
+                    <div class="address-input-group">
+                        <input type="text" id="address_line3" name="address_line3" placeholder="City, State, PIN Code">
+                    </div>
+                </div>
+
+                <h4>Acknowledgement Details</h4>
+                <div class="form-group">
+                    <label>SDA People (Names & Designations):</label>
+                    <div id="rrecl-people-list" class="dynamic-person-list"></div>
+                </div>
+
+                <div class="form-group">
+                    <label>Guest Trainers (Names & Designations):</label>
+                    <div id="guest-people-list" class="dynamic-person-list"></div>
+                </div>
+
+                <div class="form-group">
+                    <label>Chief Guests (Names & Designations):</label>
+                    <div id="chief-people-list" class="dynamic-person-list"></div>
+                </div>
+
+                <div class="form-group">
+                    <label>Guidance Person (Names & Designations):</label>
+                    <div id="guidance-people-list" class="dynamic-person-list"></div>
+                </div>
+
+                <h4>Workshop Details</h4>
+                <div class="form-group">
+                    <label for="workshop_type">Workshop Type:</label>
+                    <input type="text" id="workshop_type" name="workshop_type" value="One-Day Type-A Workshop">
+                </div>
+                <div class="form-group">
+                    <label for="organizer">Organized By:</label>
+                    <input type="text" id="organizer" name="organizer" required>
+                </div>
+                <div class="form-group">
+                    <label for="venue">Venue:</label>
+                    <input type="text" id="venue" name="venue" required>
+                </div>
+
+                <div class="step-navigation">
+                    <button type="button" id="nextBtn" class="btn-nav">Next &rarr;</button>
+                </div>
+            </div>
+
+            <div class="step" id="step2">
+                <div class="gallery-section">
+                    <div class="section-header">
+                        <span class="material-icons section-icon">photo_library</span>
+                        <div>
+                            <div class="section-title">Photo Gallery</div>
+                            <div class="section-subtitle">Upload images to showcase your training program</div>
+                        </div>
+                    </div>
+                    <div class="gallery-grid" id="gallery-grid">
+                        <div class="gallery-box">
+                            <label for="gallery_image_1" class="image-upload-label">
+                                <span id="plus_1" class="plus-icon">📸</span>
+                                <div class="upload-text">Gallery Image 1</div>
+                                <div class="upload-hint">Click to upload or drag & drop</div>
+                                <img id="preview_1" src="" alt="Image preview" class="preview-img">
+                            </label>
+                            <input type="file" id="gallery_image_1" name="gallery_image_1" accept="image/*" data-preview-id="1">
+                            <input type="text" name="gallery_caption_1" placeholder="Enter image caption" style="width:90%; margin-top:0.5em;">
+                        </div>
+                    </div>
+                    <button type="button" class="btn-add-more" onclick="addGalleryImage()">
+                        <span class="material-icons">add</span>
+                        Add More Gallery Images
+                    </button>
+                </div>
+
+                <!-- Annexure I -->
+                <div class="annexure-section">
+                    <h4>📋 Annexure I (Agenda of the Training)</h4>
+                    <div class="annexure-grid" id="annexure1-grid">
+                        <div class="gallery-box">
+                            <label>Annexure I Image 1</label>
+                            <label for="annexure1_image_1" class="image-upload-label">
+                                <span id="plus_annexure1_1" class="plus-icon">+</span>
+                                <img id="preview_annexure1_1" src="" alt="Image preview" class="preview-img">
+                            </label>
+                            <input type="file" id="annexure1_image_1" name="annexure1_image_1" accept="image/*" data-preview-id="annexure1_1">
+                            <input type="text" name="annexure1_caption_1" placeholder="Enter image caption" style="width:90%; margin-top:0.5em;">
+                        </div>
+                    </div>
+                    <button type="button" class="btn-add-more" onclick="addAnnexureImage('annexure1')">
+                        <span class="material-icons">add</span>
+                        Add More Annexure I Images
+                    </button>
+                </div>
+
+                <!-- Annexure II -->
+                <div class="annexure-section">
+                    <h4>📄 Annexure II (Flyer of the Training)</h4>
+                    <div class="annexure-grid" id="annexure2-grid">
+                        <div class="gallery-box">
+                            <label>Annexure II Image 1</label>
+                            <label for="annexure2_image_1" class="image-upload-label">
+                                <span id="plus_annexure2_1" class="plus-icon">+</span>
+                                <img id="preview_annexure2_1" src="" alt="Image preview" class="preview-img">
+                            </label>
+                            <input type="file" id="annexure2_image_1" name="annexure2_image_1" accept="image/*" data-preview-id="annexure2_1">
+                            <input type="text" name="annexure2_caption_1" placeholder="Enter image caption" style="width:90%; margin-top:0.5em;">
+                        </div>
+                    </div>
+                    <button type="button" class="btn-add-more" onclick="addAnnexureImage('annexure2')">
+                        <span class="material-icons">add</span>
+                        Add More Annexure II Images
+                    </button>
+                </div>
+
+                <!-- Annexure III -->
+                <div class="annexure-section">
+                    <h4>📝 Annexure III (Attendance Sheet)</h4>
+                    <div class="annexure-grid" id="annexure3-grid">
+                        <div class="gallery-box">
+                            <label>Annexure III Image 1</label>
+                            <label for="annexure3_image_1" class="image-upload-label">
+                                <span id="plus_annexure3_1" class="plus-icon">+</span>
+                                <img id="preview_annexure3_1" src="" alt="Image preview" class="preview-img">
+                            </label>
+                            <input type="file" id="annexure3_image_1" name="annexure3_image_1" accept="image/*" data-preview-id="annexure3_1">
+                            <input type="text" name="annexure3_caption_1" placeholder="Enter image caption" style="width:90%; margin-top:0.5em;">
+                        </div>
+                    </div>
+                    <button type="button" class="btn-add-more" onclick="addAnnexureImage('annexure3')">
+                        <span class="material-icons">add</span>
+                        Add More Annexure III Images
+                    </button>
+                </div>
+
+                <!-- Annexure IV -->
+                <div class="annexure-section">
+                    <h4>💬 Annexure IV (Feedback Forms)</h4>
+                    <div class="annexure-grid" id="annexure4-grid">
+                        <div class="gallery-box">
+                            <label>Annexure IV Image 1</label>
+                            <label for="annexure4_image_1" class="image-upload-label">
+                                <span id="plus_annexure4_1" class="plus-icon">+</span>
+                                <img id="preview_annexure4_1" src="" alt="Image preview" class="preview-img">
+                            </label>
+                            <input type="file" id="annexure4_image_1" name="annexure4_image_1" accept="image/*" data-preview-id="annexure4_1">
+                            <input type="text" name="annexure4_caption_1" placeholder="Enter image caption" style="width:90%; margin-top:0.5em;">
+                        </div>
+                    </div>
+                    <button type="button" class="btn-add-more" onclick="addAnnexureImage('annexure4')">
+                        <span class="material-icons">add</span>
+                        Add More Annexure IV Images
+                    </button>
+                </div>
+
+                <!-- Annexure V -->
+                <div class="annexure-section">
+                    <h4>📋 Annexure V (Registration Forms)</h4>
+                    <div class="annexure-grid" id="annexure5-grid">
+                        <div class="gallery-box">
+                            <label>Annexure V Image 1</label>
+                            <label for="annexure5_image_1" class="image-upload-label">
+                                <span id="plus_annexure5_1" class="plus-icon">+</span>
+                                <img id="preview_annexure5_1" src="" alt="Image preview" class="preview-img">
+                            </label>
+                            <input type="file" id="annexure5_image_1" name="annexure5_image_1" accept="image/*" data-preview-id="annexure5_1">
+                            <input type="text" name="annexure5_caption_1" placeholder="Enter image caption" style="width:90%; margin-top:0.5em;">
+                        </div>
+                    </div>
+                    <button type="button" class="btn-add-more" onclick="addAnnexureImage('annexure5')">
+                        <span class="material-icons">add</span>
+                        Add More Annexure V Images
+                    </button>
+                </div>
+
+                <div class="step-navigation">
+                    <button type="button" id="prevBtn" class="btn-nav prev">&larr; Previous</button>
+                    <button type="submit" class="btn-nav btn-generate">✨ Generate Report</button>
+                </div>
+            </div>
+        </form>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+</html>

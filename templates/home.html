@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Training Report Generator</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/home.css') }}">
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1 class="main-title">Training Report Generator</h1>
+            <p class="subtitle">Select your training type to get started</p>
+        </header>
+
+        <div class="training-grid">
+            <!-- Type A - One Day Training Programme -->
+            <div class="training-card">
+                <div class="card-icon blue">
+                    <span class="material-icons">today</span>
+                </div>
+                <h3 class="card-title">Type A: ONE DAY TRAINING PROGRAMME</h3>
+                <p class="card-description">
+                    Comprehensive single-day training programme designed for intensive skill development and knowledge transfer.
+                </p>
+                <a href="{{ url_for('type_a.form') }}" class="btn btn-primary">Select This Training</a>
+            </div>
+
+            <!-- Type B - Two Day Training Programme -->
+            <div class="training-card">
+                <div class="card-icon green">
+                    <span class="material-icons">event</span>
+                </div>
+                <h3 class="card-title">Type B: TWO DAY TRAINING PROGRAMME</h3>
+                <p class="card-description">
+                    Extended two-day training programme for in-depth learning and hands-on practical sessions.
+                </p>
+                <a href="{{ url_for('type_b.form') }}" class="btn btn-primary">Select This Training</a>
+            </div>
+
+            <!-- Type C - Two Day Training Programme -->
+            <div class="training-card">
+                <div class="card-icon purple">
+                    <span class="material-icons">date_range</span>
+                </div>
+                <h3 class="card-title">Type C: TWO DAY TRAINING PROGRAMME</h3>
+                <p class="card-description">
+                    Specialized two-day training programme focusing on advanced concepts and professional development.
+                </p>
+                <a href="{{ url_for('type_c.form') }}" class="btn btn-primary">Select This Training</a>
+            </div>
+
+            <!-- Type D - Half Day Training Programme -->
+            <div class="training-card">
+                <div class="card-icon orange">
+                    <span class="material-icons">schedule</span>
+                </div>
+                <h3 class="card-title">Type D: HALF DAY TRAINING PROGRAMME</h3>
+                <p class="card-description">
+                    Focused half-day training programme for targeted skill enhancement and quick knowledge updates.
+                </p>
+                <a href="{{ url_for('type_d.form') }}" class="btn btn-primary">Select This Training</a>
+            </div>
+        </div>
+
+        <footer class="footer">
+            <p>Choose the training type that best matches your requirements. You can customize all details in the next steps.</p>
+        </footer>
+    </div>
+</body>
+</html>

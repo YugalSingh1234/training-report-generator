@@ -33,6 +33,48 @@ Form data processing utilities.
 """
 
 
+def format_address(line1, line2, line3):
+    """
+    Format address with first two lines combined by comma, third line on new line.
+    Example: "Building Name, Street Address\nCity, State, PIN"
+    """
+    # Combine first two lines with comma if both exist
+    first_part = []
+    if line1 and line1.strip():
+        first_part.append(line1.strip())
+    if line2 and line2.strip():
+        first_part.append(line2.strip())
+    
+    # Create the address parts
+    address_parts = []
+    if first_part:
+        address_parts.append(', '.join(first_part))
+    if line3 and line3.strip():
+        address_parts.append(line3.strip())
+    
+    return '\n'.join(address_parts)
+
+
+def format_date(date_string):
+    """
+    Convert date from YYYY-MM-DD format to DD-MM-YYYY format.
+    Example: "2023-05-29" becomes "29-05-2023"
+    """
+    if not date_string:
+        return ''
+    
+    try:
+        # Split the date and rearrange
+        parts = date_string.split('-')
+        if len(parts) == 3:
+            year, month, day = parts
+            return f"{day}-{month}-{year}"
+        else:
+            return date_string  # Return as-is if format is unexpected
+    except:
+        return date_string  # Return as-is if there's any error
+
+
 def combine_person_list(prefixes, names, designations):
     """Combine person data into formatted strings."""
     people = []
@@ -71,20 +113,20 @@ def process_form_data(request):
 
     # Text replacements
     text_replacements = {
-        '{{EVENT_TITLE}}': request.form.get('event_title'),
-        '{{EVENT_DETAILS}}': request.form.get('event_details_line1'),
-        '{{EVENT_DATE}}': request.form.get('event_date'),
-        '{{ADDRESS}}': '\n'.join([
+        '{{EVENT_DATE}}': format_date(request.form.get('event_date')),
+        '{{Submitted_to}}': request.form.get('submitted_to'),
+        '{{Submitted_by}}': request.form.get('submitted_by'),
+        '{{ADDRESS}}': format_address(
             request.form.get('address_line1', ''),
             request.form.get('address_line2', ''),
             request.form.get('address_line3', '')
-        ]).strip(),
+        ),
         '{{RRECL_PEOPLE}}': rrecl_people,
         '{{WORKSHOP_TYPE}}': request.form.get('workshop_type'),
         '{{GUEST_TRAINERS}}': guest_trainers,
         '{{ORGANIZER}}': request.form.get('organizer'),
         '{{VENUE}}': request.form.get('venue'),
-        '{{DATETIME}}': request.form.get('date', ''),
+        '{{DATETIME}}': format_date(request.form.get('date', '')),
         '{{CELL_NAME}}': request.form.get('cell_name'),
         '{{CHIEF_GUESTS}}': chief_guests,
         '{{GUIDANCE_PERSON}}': guidance_person

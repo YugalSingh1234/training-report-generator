@@ -7,6 +7,31 @@ document.addEventListener('DOMContentLoaded', function() {
     const prevBtn = document.getElementById('prevBtn');
     let currentStep = 0;
 
+    // --- Reset Form State on Page Load ---
+    function resetFormState() {
+        // Reset generate button
+        const generateBtn = document.querySelector('button[type="submit"]');
+        if (generateBtn) {
+            generateBtn.innerHTML = '<span class="material-icons">auto_awesome</span> Generate Report';
+            generateBtn.disabled = false;
+        }
+        
+        // Remove any existing loading overlay
+        const existingOverlay = document.getElementById('loading-overlay');
+        if (existingOverlay) {
+            existingOverlay.remove();
+        }
+        
+        // Reset form fields styling
+        const allFields = document.querySelectorAll('input, select, textarea');
+        allFields.forEach(field => {
+            field.style.borderColor = '';
+        });
+    }
+
+    // Call reset function on page load
+    resetFormState();
+
     // --- Multi-step Form Navigation ---
     function showStep(stepIndex) {
         steps.forEach((step, index) => {
@@ -60,6 +85,16 @@ document.addEventListener('DOMContentLoaded', function() {
         multiStepForm.addEventListener('submit', function(e) {
             console.log('🎯 Form submission attempted');
             
+            // Get generate button once
+            const generateBtn = document.querySelector('button[type="submit"]');
+            
+            // Always allow form submission and handle button state properly
+            if (generateBtn) {
+                console.log('📤 Submitting form - disabling button temporarily');
+                generateBtn.disabled = true;
+                generateBtn.textContent = 'Generating...';
+            }
+            
             // Check if all required fields are filled
             const requiredFields = document.querySelectorAll('input[required], select[required]');
             let missingFields = [];
@@ -76,6 +111,12 @@ document.addEventListener('DOMContentLoaded', function() {
             if (missingFields.length > 0) {
                 e.preventDefault();
                 
+                // Re-enable button since we're not submitting
+                if (generateBtn) {
+                    generateBtn.disabled = false;
+                    generateBtn.textContent = 'Generate Report';
+                }
+                
                 // Go to step 1 to show missing fields
                 if (currentStep !== 0) {
                     currentStep = 0;
@@ -90,11 +131,9 @@ document.addEventListener('DOMContentLoaded', function() {
                 return false;
             }
             
-            // Show loading state
-            const generateBtn = document.querySelector('button[type="submit"]');
+            // Final button state for successful submission
             if (generateBtn) {
                 generateBtn.innerHTML = '<span class="material-icons">hourglass_empty</span> Generating Report...';
-                generateBtn.disabled = true;
             }
             
             // Show loading overlay
@@ -291,4 +330,20 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     }
+
+    // --- Handle Page Visibility Changes ---
+    document.addEventListener('visibilitychange', function() {
+        if (!document.hidden) {
+            // Reset form state when page becomes visible again
+            resetFormState();
+        }
+    });
+
+    // --- Handle Browser Back Button ---
+    window.addEventListener('pageshow', function(event) {
+        if (event.persisted) {
+            // Reset form state when page is loaded from cache
+            resetFormState();
+        }
+    });
 });
