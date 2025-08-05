@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Type C Report Generated Successfully</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <div class="success-container">
+            <div class="success-icon">
+                <span class="material-icons">check_circle</span>
+            </div>
+            
+            <h1 class="success-title">Type C Report Generated Successfully!</h1>
+            
+            <div class="success-message">
+                <p>Your Professional Development training report has been generated successfully.</p>
+                <p class="filename">📄 <strong>{{ filename }}</strong></p>
+            </div>
+            
+            <div class="action-buttons">
+                <a href="{{ download_url }}" class="btn btn-primary" download>
+                    <span class="material-icons">download</span>
+                    Download Report
+                </a>
+                
+                <a href="{{ url_for('type_c.form') }}" class="btn btn-secondary">
+                    <span class="material-icons">add</span>
+                    Generate Another Report
+                </a>
+                
+                <a href="{{ url_for('home') }}" class="btn btn-tertiary">
+                    <span class="material-icons">home</span>
+                    Back to Home
+                </a>
+            </div>
+            
+            <div class="report-features">
+                <h3>Report Features Included:</h3>
+                <ul>
+                    <li><span class="material-icons">bar_chart</span> Feedback Charts (4 Questions)</li>
+                    <li><span class="material-icons">collections</span> Gallery Images</li>
+                    <li><span class="material-icons">attach_file</span> 6 Annexure Sections</li>
+                    <li><span class="material-icons">calendar_today</span> Date Range Formatting</li>
+                    <li><span class="material-icons">business</span> Organization Details</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

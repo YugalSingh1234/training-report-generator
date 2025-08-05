@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Type C Professional Development Training Report Generator</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <!-- Back to Home Button -->
+        <div class="back-to-home">
+            <a href="{{ url_for('home') }}" class="btn-back">
+                <span class="material-icons">arrow_back</span>
+                Back to Home
+            </a>
+        </div>
+        
+        <h1 class="main-title">Type C Professional Development Training Report Generator</h1>
+        
+        <!-- Tabbed Progress Navigation -->
+        <div class="progress-container">
+            <div class="progress-bar">
+                <div class="progress-step active" id="progress-step-1">
+                    <span class="material-icons">description</span>
+                    Form Details
+                </div>
+                <div class="progress-step" id="progress-step-2">
+                    <span class="material-icons">bar_chart</span>
+                    Feedback Charts
+                </div>
+                <div class="progress-step" id="progress-step-3">
+                    <span class="material-icons">collections</span>
+                    Gallery & Annexures
+                </div>
+            </div>
+        </div>
+        
+        <div class="tab-content-wrapper">
+        
+        <form action="{{ url_for('type_c.generate_report') }}" method="post" enctype="multipart/form-data" id="multiStepForm">
+            <!-- Step 1: Basic Information -->
+            <div class="step active" id="step1">
+                <div class="section-header">
+                    <span class="material-icons section-icon">article</span>
+                    <div>
+                        <div class="section-title">Report Details</div>
+                        <div class="section-subtitle">Basic information for your Professional Development training report</div>
+                    </div>
+                </div>
+                
+                <!-- Template Selection -->
+                <div class="form-group">
+                    <label for="selected_template">Select Organization Template:</label>
+                    <select name="selected_template" id="selected_template" required>
+                        <option value="1">Template 1</option>
+                        <option value="2">Template 2</option>
+                        <option value="3">Template 3</option>
+                        <option value="4">Template 4</option>
+                        <option value="5">Template 5</option>
+                    </select>
+                </div>
+                
+                <!-- Date Range -->
+                <div class="form-group">
+                    <label for="start_date">Training Start Date:</label>
+                    <input type="date" name="start_date" id="start_date" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="end_date">Training End Date:</label>
+                    <input type="date" name="end_date" id="end_date" required>
+                </div>
+                
+                <!-- Organization Details -->
+                <div class="form-group">
+                    <label for="cell_name">Organization/Cell Name:</label>
+                    <input type="text" name="cell_name" id="cell_name" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="address">Address:</label>
+                    <textarea name="address" id="address" rows="3" required></textarea>
+                </div>
+                
+                <!-- Submission Details -->
+                <div class="form-group">
+                    <label for="submitted_to">Submitted To:</label>
+                    <input type="text" name="submitted_to" id="submitted_to" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="submitted_by">Submitted By:</label>
+                    <input type="text" name="submitted_by" id="submitted_by" required>
+                </div>
+                
+                <!-- Officials -->
+                <div class="form-group">
+                    <label for="senior_official">Senior Official:</label>
+                    <input type="text" name="senior_official" id="senior_official">
+                </div>
+                
+                <div class="form-group">
+                    <label for="chief_guest_name">Chief Guest Name:</label>
+                    <input type="text" name="chief_guest_name" id="chief_guest_name">
+                </div>
+                
+                <div class="form-group">
+                    <label for="guidance_person">Guidance Person:</label>
+                    <input type="text" name="guidance_person" id="guidance_person">
+                </div>
+                
+                <!-- Trainers -->
+                <div class="form-group">
+                    <label for="trainer_name_1">Trainer Name 1:</label>
+                    <input type="text" name="trainer_name_1" id="trainer_name_1" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="trainer_name_2">Trainer Name 2:</label>
+                    <input type="text" name="trainer_name_2" id="trainer_name_2">
+                </div>
+                
+                <!-- Participants -->
+                <div class="form-group">
+                    <label for="participant_department">Participant Department:</label>
+                    <input type="text" name="participant_department" id="participant_department" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="participant_no">Number of Participants:</label>
+                    <input type="number" name="participant_no" id="participant_no" min="1" required>
+                </div>
+                
+                <div class="step-navigation">
+                    <button type="button" class="btn btn-next" onclick="nextStep()">Next: Feedback Charts</button>
+                </div>
+            </div>
+            
+            <!-- Step 2: Feedback Charts -->
+            <div class="step" id="step2">
+                <div class="section-header">
+                    <span class="material-icons section-icon">bar_chart</span>
+                    <div>
+                        <div class="section-title">Feedback Survey Data</div>
+                        <div class="section-subtitle">Enter participant feedback counts for chart generation</div>
+                    </div>
+                </div>
+                
+                <!-- Question 1 -->
+                <div class="feedback-question">
+                    <h3>Question 1: The trainer was able to communicate clearly.</h3>
+                    <div class="feedback-row">
+                        <div class="form-group">
+                            <label for="q1_strongly_agree">Strongly Agree:</label>
+                            <input type="number" name="q1_strongly_agree" id="q1_strongly_agree" min="0" value="0">
+                        </div>
+                        <div class="form-group">
+                            <label for="q1_agree">Agree:</label>
+                            <input type="number" name="q1_agree" id="q1_agree" min="0" value="0">
+                        </div>
+                        <div class="form-group">
+                            <label for="q1_partially_agree">Partially Agree:</label>
+                            <input type="number" name="q1_partially_agree" id="q1_partially_agree" min="0" value="0">
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Question 2 -->
+                <div class="feedback-question">
+                    <h3>Question 2: The Content of ECSBC / ENS covered was satisfactory.</h3>
+                    <div class="feedback-row">
+                        <div class="form-group">
+                            <label for="q2_strongly_agree">Strongly Agree:</label>
+                            <input type="number" name="q2_strongly_agree" id="q2_strongly_agree" min="0" value="0">
+                        </div>
+                        <div class="form-group">
+                            <label for="q2_agree">Agree:</label>
+                            <input type="number" name="q2_agree" id="q2_agree" min="0" value="0">
+                        </div>
+                        <div class="form-group">
+                            <label for="q2_partially_agree">Partially Agree:</label>
+                            <input type="number" name="q2_partially_agree" id="q2_partially_agree" min="0" value="0">
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Question 3 -->
+                <div class="feedback-question">
+                    <h3>Question 3: Adequate time was provided for question-and-answer session.</h3>
+                    <div class="feedback-row">
+                        <div class="form-group">
+                            <label for="q3_strongly_agree">Strongly Agree:</label>
+                            <input type="number" name="q3_strongly_agree" id="q3_strongly_agree" min="0" value="0">
+                        </div>
+                        <div class="form-group">
+                            <label for="q3_agree">Agree:</label>
+                            <input type="number" name="q3_agree" id="q3_agree" min="0" value="0">
+                        </div>
+                        <div class="form-group">
+                            <label for="q3_partially_agree">Partially Agree:</label>
+                            <input type="number" name="q3_partially_agree" id="q3_partially_agree" min="0" value="0">
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Question 4 -->
+                <div class="feedback-question">
+                    <h3>Question 4: The content was appropriately described and key concepts conveyed properly.</h3>
+                    <div class="feedback-row">
+                        <div class="form-group">
+                            <label for="q4_strongly_agree">Strongly Agree:</label>
+                            <input type="number" name="q4_strongly_agree" id="q4_strongly_agree" min="0" value="0">
+                        </div>
+                        <div class="form-group">
+                            <label for="q4_agree">Agree:</label>
+                            <input type="number" name="q4_agree" id="q4_agree" min="0" value="0">
+                        </div>
+                        <div class="form-group">
+                            <label for="q4_partially_agree">Partially Agree:</label>
+                            <input type="number" name="q4_partially_agree" id="q4_partially_agree" min="0" value="0">
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="step-navigation">
+                    <button type="button" class="btn btn-prev" onclick="prevStep()">Previous: Form Details</button>
+                    <button type="button" class="btn btn-next" onclick="nextStep()">Next: Gallery & Annexures</button>
+                </div>
+            </div>
+            
+            <!-- Step 3: Gallery and Annexures -->
+            <div class="step" id="step3">
+                <div class="section-header">
+                    <span class="material-icons section-icon">collections</span>
+                    <div>
+                        <div class="section-title">Gallery Images</div>
+                        <div class="section-subtitle">Upload training photos for the gallery section</div>
+                    </div>
+                </div>
+                
+                <!-- Gallery Images -->
+                <div class="gallery-upload">
+                    <div class="gallery-grid" id="gallery-grid">
+                        <div class="gallery-box">
+                            <label for="gallery_image_1" class="image-upload-label">
+                                <span id="plus_1" class="plus-icon">📸</span>
+                                <div class="upload-text">Gallery Image 1</div>
+                                <div class="upload-hint">Click to upload or drag & drop</div>
+                                <img id="preview_1" src="" alt="Image preview" class="preview-img">
+                            </label>
+                            <input type="file" id="gallery_image_1" name="gallery_image_1" accept="image/*" data-preview-id="1">
+                            <input type="text" name="gallery_caption_1" placeholder="Enter image caption" class="caption-input">
+                        </div>
+                    </div>
+                    <button type="button" class="btn-add-more" onclick="addGalleryImage()">
+                        <span class="material-icons">add</span>
+                        Add More Gallery Images
+                    </button>
+                </div>
+                
+                <!-- Annexures -->
+                <div class="section-header" style="margin-top: 2rem;">
+                    <span class="material-icons section-icon">attach_file</span>
+                    <div>
+                        <div class="section-title">Annexure Documents</div>
+                        <div class="section-subtitle">Upload supporting documents for each annexure</div>
+                    </div>
+                </div>
+                
+                <!-- Annexure 1: Flyer -->
+                <div class="annexure-section">
+                    <h3>Annexure-I: Flyer of the Training</h3>
+                    <div class="upload-row">
+                        <div class="form-group">
+                            <label for="annexure1_image_1">Flyer Image 1:</label>
+                            <input type="file" name="annexure1_image_1" id="annexure1_image_1" accept="image/*">
+                            <input type="text" name="annexure1_caption_1" placeholder="Caption" class="caption-input">
+                        </div>
+                        <div class="form-group">
+                            <label for="annexure1_image_2">Flyer Image 2:</label>
+                            <input type="file" name="annexure1_image_2" id="annexure1_image_2" accept="image/*">
+                            <input type="text" name="annexure1_caption_2" placeholder="Caption" class="caption-input">
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Annexure 2: Attendance Sheet -->
+                <div class="annexure-section">
+                    <h3>Annexure-II: Attendance Sheet</h3>
+                    <div class="upload-row">
+                        <div class="form-group">
+                            <label for="annexure2_image_1">Attendance Sheet 1:</label>
+                            <input type="file" name="annexure2_image_1" id="annexure2_image_1" accept="image/*">
+                            <input type="text" name="annexure2_caption_1" placeholder="Caption" class="caption-input">
+                        </div>
+                        <div class="form-group">
+                            <label for="annexure2_image_2">Attendance Sheet 2:</label>
+                            <input type="file" name="annexure2_image_2" id="annexure2_image_2" accept="image/*">
+                            <input type="text" name="annexure2_caption_2" placeholder="Caption" class="caption-input">
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Annexure 3: Feedback Form -->
+                <div class="annexure-section">
+                    <h3>Annexure-III: Feedback Form</h3>
+                    <div class="upload-row">
+                        <div class="form-group">
+                            <label for="annexure3_image_1">Feedback Form 1:</label>
+                            <input type="file" name="annexure3_image_1" id="annexure3_image_1" accept="image/*">
+                            <input type="text" name="annexure3_caption_1" placeholder="Caption" class="caption-input">
+                        </div>
+                        <div class="form-group">
+                            <label for="annexure3_image_2">Feedback Form 2:</label>
+                            <input type="file" name="annexure3_image_2" id="annexure3_image_2" accept="image/*">
+                            <input type="text" name="annexure3_caption_2" placeholder="Caption" class="caption-input">
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Annexure 4: Registration Form -->
+                <div class="annexure-section">
+                    <h3>Annexure-IV: Registration Form</h3>
+                    <div class="upload-row">
+                        <div class="form-group">
+                            <label for="annexure4_image_1">Registration Form 1:</label>
+                            <input type="file" name="annexure4_image_1" id="annexure4_image_1" accept="image/*">
+                            <input type="text" name="annexure4_caption_1" placeholder="Caption" class="caption-input">
+                        </div>
+                        <div class="form-group">
+                            <label for="annexure4_image_2">Registration Form 2:</label>
+                            <input type="file" name="annexure4_image_2" id="annexure4_image_2" accept="image/*">
+                            <input type="text" name="annexure4_caption_2" placeholder="Caption" class="caption-input">
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Annexure 5: Registration Form (continued) -->
+                <div class="annexure-section">
+                    <h3>Annexure-V: Registration Form (continued)</h3>
+                    <div class="upload-row">
+                        <div class="form-group">
+                            <label for="annexure5_image_1">Registration Form 3:</label>
+                            <input type="file" name="annexure5_image_1" id="annexure5_image_1" accept="image/*">
+                            <input type="text" name="annexure5_caption_1" placeholder="Caption" class="caption-input">
+                        </div>
+                        <div class="form-group">
+                            <label for="annexure5_image_2">Registration Form 4:</label>
+                            <input type="file" name="annexure5_image_2" id="annexure5_image_2" accept="image/*">
+                            <input type="text" name="annexure5_caption_2" placeholder="Caption" class="caption-input">
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Annexure 6: Brochure -->
+                <div class="annexure-section">
+                    <h3>Annexure-VI: Brochure</h3>
+                    <div class="upload-row">
+                        <div class="form-group">
+                            <label for="annexure6_image_1">Brochure 1:</label>
+                            <input type="file" name="annexure6_image_1" id="annexure6_image_1" accept="image/*">
+                            <input type="text" name="annexure6_caption_1" placeholder="Caption" class="caption-input">
+                        </div>
+                        <div class="form-group">
+                            <label for="annexure6_image_2">Brochure 2:</label>
+                            <input type="file" name="annexure6_image_2" id="annexure6_image_2" accept="image/*">
+                            <input type="text" name="annexure6_caption_2" placeholder="Caption" class="caption-input">
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="step-navigation">
+                    <button type="button" class="btn btn-prev" onclick="prevStep()">Previous: Feedback Charts</button>
+                    <button type="submit" class="btn btn-submit">Generate Type C Report</button>
+                </div>
+            </div>
+        </form>
+        
+        </div> <!-- End tab-content-wrapper -->
+    </div>
+
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+    
+    <style>
+        .feedback-question {
+            margin-bottom: 2rem;
+            padding: 1.5rem;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            background: #f9f9f9;
+        }
+        
+        .feedback-question h3 {
+            margin-bottom: 1rem;
+            color: #333;
+            font-size: 1.1rem;
+        }
+        
+        .feedback-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 1rem;
+        }
+        
+        .annexure-section {
+            margin-bottom: 2rem;
+            padding: 1rem;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+        }
+        
+        .annexure-section h3 {
+            margin-bottom: 1rem;
+            color: #333;
+            font-size: 1rem;
+        }
+        
+        .upload-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+        
+        .gallery-upload .upload-row {
+            margin-bottom: 1rem;
+        }
+        
+        .caption-input {
+            margin-top: 0.5rem;
+            padding: 0.5rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            width: 100%;
+            font-size: 0.9rem;
+        }
+    </style>
+</body>
+</html>

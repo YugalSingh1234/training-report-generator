@@ -347,3 +347,57 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 });
+
+// --- Global Navigation Functions for Multi-Step Forms ---
+let currentStepIndex = 0;
+
+function nextStep() {
+    const steps = document.querySelectorAll('.step');
+    const progressSteps = document.querySelectorAll('.progress-step');
+    
+    if (currentStepIndex < steps.length - 1) {
+        // Hide current step
+        steps[currentStepIndex].classList.remove('active');
+        progressSteps[currentStepIndex].classList.remove('active');
+        
+        // Show next step
+        currentStepIndex++;
+        steps[currentStepIndex].classList.add('active');
+        progressSteps[currentStepIndex].classList.add('active');
+        
+        // Scroll to top of form
+        document.querySelector('.container').scrollIntoView({ behavior: 'smooth' });
+    }
+}
+
+function prevStep() {
+    const steps = document.querySelectorAll('.step');
+    const progressSteps = document.querySelectorAll('.progress-step');
+    
+    if (currentStepIndex > 0) {
+        // Hide current step
+        steps[currentStepIndex].classList.remove('active');
+        progressSteps[currentStepIndex].classList.remove('active');
+        
+        // Show previous step
+        currentStepIndex--;
+        steps[currentStepIndex].classList.add('active');
+        progressSteps[currentStepIndex].classList.add('active');
+        
+        // Scroll to top of form
+        document.querySelector('.container').scrollIntoView({ behavior: 'smooth' });
+    }
+}
+
+// Initialize first step
+document.addEventListener('DOMContentLoaded', function() {
+    const steps = document.querySelectorAll('.step');
+    const progressSteps = document.querySelectorAll('.progress-step');
+    
+    if (steps.length > 0 && progressSteps.length > 0) {
+        // Ensure first step is active
+        steps[0].classList.add('active');
+        progressSteps[0].classList.add('active');
+        currentStepIndex = 0;
+    }
+});
