@@ -273,104 +273,119 @@
                 
                 <!-- Annexure 1: Flyer -->
                 <div class="annexure-section">
-                    <h3>Annexure-I: Flyer of the Training</h3>
-                    <div class="upload-row">
-                        <div class="form-group">
-                            <label for="annexure1_image_1">Flyer Image 1:</label>
-                            <input type="file" name="annexure1_image_1" id="annexure1_image_1" accept="image/*">
-                            <input type="text" name="annexure1_caption_1" placeholder="Caption" class="caption-input">
-                        </div>
-                        <div class="form-group">
-                            <label for="annexure1_image_2">Flyer Image 2:</label>
-                            <input type="file" name="annexure1_image_2" id="annexure1_image_2" accept="image/*">
-                            <input type="text" name="annexure1_caption_2" placeholder="Caption" class="caption-input">
+                    <h4>📄 Annexure I (Flyer of the Training)</h4>
+                    <div class="annexure-grid" id="annexure1-grid">
+                        <div class="gallery-box">
+                            <label>Annexure I Image 1</label>
+                            <label for="annexure1_image_1" class="image-upload-label">
+                                <span id="plus_annexure1_1" class="plus-icon">+</span>
+                                <img id="preview_annexure1_1" src="" alt="Image preview" class="preview-img">
+                            </label>
+                            <input type="file" id="annexure1_image_1" name="annexure1_image_1" accept="image/*" data-preview-id="annexure1_1">
+                            <input type="text" name="annexure1_caption_1" placeholder="Enter image caption" style="width:90%; margin-top:0.5em;">
                         </div>
                     </div>
+                    <button type="button" class="btn-add-more" onclick="addAnnexureImage('annexure1')">
+                        <span class="material-icons">add</span>
+                        Add More Annexure I Images
+                    </button>
                 </div>
                 
                 <!-- Annexure 2: Attendance Sheet -->
                 <div class="annexure-section">
-                    <h3>Annexure-II: Attendance Sheet</h3>
-                    <div class="upload-row">
-                        <div class="form-group">
-                            <label for="annexure2_image_1">Attendance Sheet 1:</label>
-                            <input type="file" name="annexure2_image_1" id="annexure2_image_1" accept="image/*">
-                            <input type="text" name="annexure2_caption_1" placeholder="Caption" class="caption-input">
-                        </div>
-                        <div class="form-group">
-                            <label for="annexure2_image_2">Attendance Sheet 2:</label>
-                            <input type="file" name="annexure2_image_2" id="annexure2_image_2" accept="image/*">
-                            <input type="text" name="annexure2_caption_2" placeholder="Caption" class="caption-input">
+                    <h4>📋 Annexure II (Attendance Sheet)</h4>
+                    <div class="annexure-grid" id="annexure2-grid">
+                        <div class="gallery-box">
+                            <label>Annexure II Image 1</label>
+                            <label for="annexure2_image_1" class="image-upload-label">
+                                <span id="plus_annexure2_1" class="plus-icon">+</span>
+                                <img id="preview_annexure2_1" src="" alt="Image preview" class="preview-img">
+                            </label>
+                            <input type="file" id="annexure2_image_1" name="annexure2_image_1" accept="image/*" data-preview-id="annexure2_1">
+                            <input type="text" name="annexure2_caption_1" placeholder="Enter image caption" style="width:90%; margin-top:0.5em;">
                         </div>
                     </div>
+                    <button type="button" class="btn-add-more" onclick="addAnnexureImage('annexure2')">
+                        <span class="material-icons">add</span>
+                        Add More Annexure II Images
+                    </button>
                 </div>
                 
                 <!-- Annexure 3: Feedback Form -->
                 <div class="annexure-section">
-                    <h3>Annexure-III: Feedback Form</h3>
-                    <div class="upload-row">
-                        <div class="form-group">
-                            <label for="annexure3_image_1">Feedback Form 1:</label>
-                            <input type="file" name="annexure3_image_1" id="annexure3_image_1" accept="image/*">
-                            <input type="text" name="annexure3_caption_1" placeholder="Caption" class="caption-input">
-                        </div>
-                        <div class="form-group">
-                            <label for="annexure3_image_2">Feedback Form 2:</label>
-                            <input type="file" name="annexure3_image_2" id="annexure3_image_2" accept="image/*">
-                            <input type="text" name="annexure3_caption_2" placeholder="Caption" class="caption-input">
+                    <h4>📝 Annexure III (Feedback Form)</h4>
+                    <div class="annexure-grid" id="annexure3-grid">
+                        <div class="gallery-box">
+                            <label>Annexure III Image 1</label>
+                            <label for="annexure3_image_1" class="image-upload-label">
+                                <span id="plus_annexure3_1" class="plus-icon">+</span>
+                                <img id="preview_annexure3_1" src="" alt="Image preview" class="preview-img">
+                            </label>
+                            <input type="file" id="annexure3_image_1" name="annexure3_image_1" accept="image/*" data-preview-id="annexure3_1">
+                            <input type="text" name="annexure3_caption_1" placeholder="Enter image caption" style="width:90%; margin-top:0.5em;">
                         </div>
                     </div>
-                </div>
+                    <button type="button" class="btn-add-more" onclick="addAnnexureImage('annexure3')">
+                        <span class="material-icons">add</span>
                 
                 <!-- Annexure 4: Registration Form -->
                 <div class="annexure-section">
-                    <h3>Annexure-IV: Registration Form</h3>
-                    <div class="upload-row">
-                        <div class="form-group">
-                            <label for="annexure4_image_1">Registration Form 1:</label>
-                            <input type="file" name="annexure4_image_1" id="annexure4_image_1" accept="image/*">
-                            <input type="text" name="annexure4_caption_1" placeholder="Caption" class="caption-input">
-                        </div>
-                        <div class="form-group">
-                            <label for="annexure4_image_2">Registration Form 2:</label>
-                            <input type="file" name="annexure4_image_2" id="annexure4_image_2" accept="image/*">
-                            <input type="text" name="annexure4_caption_2" placeholder="Caption" class="caption-input">
+                    <h4>📝 Annexure IV (Registration Form)</h4>
+                    <div class="annexure-grid" id="annexure4-grid">
+                        <div class="gallery-box">
+                            <label>Annexure IV Image 1</label>
+                            <label for="annexure4_image_1" class="image-upload-label">
+                                <span id="plus_annexure4_1" class="plus-icon">+</span>
+                                <img id="preview_annexure4_1" src="" alt="Image preview" class="preview-img">
+                            </label>
+                            <input type="file" id="annexure4_image_1" name="annexure4_image_1" accept="image/*" data-preview-id="annexure4_1">
+                            <input type="text" name="annexure4_caption_1" placeholder="Enter image caption" style="width:90%; margin-top:0.5em;">
                         </div>
                     </div>
+                    <button type="button" class="btn-add-more" onclick="addAnnexureImage('annexure4')">
+                        <span class="material-icons">add</span>
+                        Add More Annexure IV Images
+                    </button>
                 </div>
                 
                 <!-- Annexure 5: Registration Form (continued) -->
                 <div class="annexure-section">
-                    <h3>Annexure-V: Registration Form (continued)</h3>
-                    <div class="upload-row">
-                        <div class="form-group">
-                            <label for="annexure5_image_1">Registration Form 3:</label>
-                            <input type="file" name="annexure5_image_1" id="annexure5_image_1" accept="image/*">
-                            <input type="text" name="annexure5_caption_1" placeholder="Caption" class="caption-input">
-                        </div>
-                        <div class="form-group">
-                            <label for="annexure5_image_2">Registration Form 4:</label>
-                            <input type="file" name="annexure5_image_2" id="annexure5_image_2" accept="image/*">
-                            <input type="text" name="annexure5_caption_2" placeholder="Caption" class="caption-input">
+                    <h4>📝 Annexure V (Registration Form continued)</h4>
+                    <div class="annexure-grid" id="annexure5-grid">
+                        <div class="gallery-box">
+                            <label>Annexure V Image 1</label>
+                            <label for="annexure5_image_1" class="image-upload-label">
+                                <span id="plus_annexure5_1" class="plus-icon">+</span>
+                                <img id="preview_annexure5_1" src="" alt="Image preview" class="preview-img">
+                            </label>
+                            <input type="file" id="annexure5_image_1" name="annexure5_image_1" accept="image/*" data-preview-id="annexure5_1">
+                            <input type="text" name="annexure5_caption_1" placeholder="Enter image caption" style="width:90%; margin-top:0.5em;">
                         </div>
                     </div>
+                    <button type="button" class="btn-add-more" onclick="addAnnexureImage('annexure5')">
+                        <span class="material-icons">add</span>
+                        Add More Annexure V Images
+                    </button>
                 </div>
                 
                 <!-- Annexure 6: Brochure -->
                 <div class="annexure-section">
-                    <h3>Annexure-VI: Brochure</h3>
-                    <div class="upload-row">
-                        <div class="form-group">
-                            <label for="annexure6_image_1">Brochure 1:</label>
-                            <input type="file" name="annexure6_image_1" id="annexure6_image_1" accept="image/*">
-                            <input type="text" name="annexure6_caption_1" placeholder="Caption" class="caption-input">
-                        </div>
-                        <div class="form-group">
-                            <label for="annexure6_image_2">Brochure 2:</label>
-                            <input type="file" name="annexure6_image_2" id="annexure6_image_2" accept="image/*">
-                            <input type="text" name="annexure6_caption_2" placeholder="Caption" class="caption-input">
+                    <h4>📄 Annexure VI (Brochure)</h4>
+                    <div class="annexure-grid" id="annexure6-grid">
+                        <div class="gallery-box">
+                            <label>Annexure VI Image 1</label>
+                            <label for="annexure6_image_1" class="image-upload-label">
+                                <span id="plus_annexure6_1" class="plus-icon">+</span>
+                                <img id="preview_annexure6_1" src="" alt="Image preview" class="preview-img">
+                            </label>
+                            <input type="file" id="annexure6_image_1" name="annexure6_image_1" accept="image/*" data-preview-id="annexure6_1">
+                            <input type="text" name="annexure6_caption_1" placeholder="Enter image caption" style="width:90%; margin-top:0.5em;">
                         </div>
                     </div>
+                    <button type="button" class="btn-add-more" onclick="addAnnexureImage('annexure6')">
+                        <span class="material-icons">add</span>
+                        Add More Annexure VI Images
+                    </button>
                 </div>
                 
                 <div class="step-navigation">
