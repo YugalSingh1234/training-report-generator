@@ -67,16 +67,68 @@ def process_type_c_form_data(request):
             # Fallback to single date if parsing fails
             basic_data['{{EVENT_DATE}}'] = request.form.get('start_date', '')
     
+    # Process address from 3 lines into 2 lines format
+    address_line1 = request.form.get('address_line1', '')
+    address_line2 = request.form.get('address_line2', '')
+    address_line3 = request.form.get('address_line3', '')
+    
+    # Combine address into 2 lines for output
+    if address_line1 and address_line2 and address_line3:
+        formatted_address = f"{address_line1}\n{address_line2}, {address_line3}"
+    elif address_line1 and address_line2:
+        formatted_address = f"{address_line1}\n{address_line2}"
+    else:
+        formatted_address = address_line1 or request.form.get('address', '')
+    
+    # Process dynamic officials
+    senior_officials = []
+    i = 1
+    while True:
+        official_name = request.form.get(f'senior_official_{i}', '')
+        official_designation = request.form.get(f'senior_official_designation_{i}', '')
+        if not official_name:
+            break
+        if official_designation:
+            senior_officials.append(f"{official_name}, {official_designation}")
+        else:
+            senior_officials.append(official_name)
+        i += 1
+    
+    senior_officials_text = '; '.join(senior_officials) if senior_officials else ''
+    
+    # Process dynamic trainers
+    trainers = []
+    i = 1
+    while True:
+        trainer_name = request.form.get(f'trainer_name_{i}', '')
+        trainer_designation = request.form.get(f'trainer_designation_{i}', '')
+        if not trainer_name:
+            break
+        if trainer_designation:
+            trainers.append(f"{trainer_name}, {trainer_designation}")
+        else:
+            trainers.append(trainer_name)
+        i += 1
+    
+    # Get first two trainers for specific placeholders
+    trainer_1 = trainers[0] if len(trainers) > 0 else ''
+    trainer_2 = trainers[1] if len(trainers) > 1 else ''
+    
+    # Chief Guest with designation
+    chief_guest_name = request.form.get('chief_guest_name', '')
+    chief_guest_designation = request.form.get('chief_guest_designation', '')
+    chief_guest_full = f"{chief_guest_name}, {chief_guest_designation}" if chief_guest_name and chief_guest_designation else chief_guest_name
+    
     # Type C specific placeholders as provided by user
     type_c_data = {
         '{{EVENT_DATE}}': basic_data.get('{{EVENT_DATE}}', request.form.get('start_date', '')),
-        '{{ADDRESS}}': request.form.get('address', ''),
+        '{{ADDRESS}}': formatted_address,
         '{{Submitted_to}}': request.form.get('submitted_to', ''),
         '{{Submitted_by}}': request.form.get('submitted_by', ''),
-        '{{Senior_Official}}': request.form.get('senior_official', ''),
-        '{{Chief_Guest_Name}}': request.form.get('chief_guest_name', ''),
-        '{{Trainer_Name_1}}': request.form.get('trainer_name_1', ''),
-        '{{Trainer_Name_2}}': request.form.get('trainer_name_2', ''),
+        '{{Senior_Official}}': senior_officials_text,
+        '{{Chief_Guest_Name}}': chief_guest_full,
+        '{{Trainer_Name_1}}': trainer_1,
+        '{{Trainer_Name_2}}': trainer_2,
         '{{ Participant_Department }}': request.form.get('participant_department', ''),  # With spaces
         '{{Participant_Department}}': request.form.get('participant_department', ''),    # Without spaces
         '{{ Participant_No. }}': request.form.get('participant_no', ''),                 # With spaces

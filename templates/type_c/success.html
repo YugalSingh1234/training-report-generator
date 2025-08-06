@@ -4,54 +4,83 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Type C Report Generated Successfully</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 <body>
     <div class="container">
         <div class="success-container">
-            <div class="success-icon">
-                <span class="material-icons">check_circle</span>
+            <!-- Success Header -->
+            <div class="success-header">
+                <span class="material-icons success-icon">check_circle</span>
+                <h1>Type C Training Report Generated Successfully!</h1>
+                <p>Your Professional Development training report has been created and is ready for download.</p>
             </div>
-            
-            <h1 class="success-title">Type C Report Generated Successfully!</h1>
-            
-            <div class="success-message">
-                <p>Your Professional Development training report has been generated successfully.</p>
-                <p class="filename">📄 <strong>{{ filename }}</strong></p>
+
+            <!-- File Information -->
+            <div class="file-info-card">
+                <div class="file-icon">
+                    <span class="material-icons">description</span>
+                </div>
+                <div class="file-details">
+                    <h3>{{ filename }}</h3>
+                    <p>Microsoft Word Document (.docx)</p>
+                    <p class="file-size">Ready for download</p>
+                </div>
             </div>
-            
+
+            <!-- Action Buttons -->
             <div class="action-buttons">
-                <a href="{{ download_url }}" class="btn btn-primary" download>
+                <a href="{{ download_url }}" class="btn-download">
                     <span class="material-icons">download</span>
                     Download Report
                 </a>
                 
-                <a href="{{ url_for('type_c.form') }}" class="btn btn-secondary">
-                    <span class="material-icons">add</span>
-                    Generate Another Report
-                </a>
-                
-                <a href="{{ url_for('home') }}" class="btn btn-tertiary">
+                <a href="{{ url_for('home') }}" class="btn-secondary">
                     <span class="material-icons">home</span>
                     Back to Home
                 </a>
+                
+                <a href="{{ url_for('type_c.form') }}" class="btn-secondary">
+                    <span class="material-icons">add</span>
+                    Generate Another Type C Report
+                </a>
             </div>
-            
-            <div class="report-features">
-                <h3>Report Features Included:</h3>
-                <ul>
-                    <li><span class="material-icons">bar_chart</span> Feedback Charts (4 Questions)</li>
-                    <li><span class="material-icons">collections</span> Gallery Images</li>
-                    <li><span class="material-icons">attach_file</span> 6 Annexure Sections</li>
-                    <li><span class="material-icons">calendar_today</span> Date Range Formatting</li>
-                    <li><span class="material-icons">business</span> Organization Details</li>
-                </ul>
+
+            <!-- Additional Information -->
+            <div class="info-section">
+                <div class="info-item">
+                    <span class="material-icons">info</span>
+                    <div>
+                        <h4>What's Next?</h4>
+                        <p>Open the downloaded document in Microsoft Word to view and edit your training report.</p>
+                    </div>
+                </div>
+                
+                <div class="info-item">
+                    <span class="material-icons">tips_and_updates</span>
+                    <div>
+                        <h4>Pro Tip</h4>
+                        <p>The table of contents will update automatically when you open the document in Word.</p>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
+
+    <script>
+        // Auto-focus download button
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelector('.btn-download').focus();
+        });
+
+        // Optional: Auto-download after 3 seconds
+        setTimeout(function() {
+            if (confirm('Would you like to download the report automatically?')) {
+                document.querySelector('.btn-download').click();
+            }
+        }, 3000);
+    </script>
 </body>
 </html>

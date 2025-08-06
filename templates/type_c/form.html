@@ -2,457 +2,1450 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Type C Professional Development Training Report Generator</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
-</head>
-<body>
-    <div class="container">
-        <!-- Back to Home Button -->
-        <div class="back-to-home">
-            <a href="{{ url_for('home') }}" class="btn-back">
-                <span class="material-icons">arrow_back</span>
-                Back to Home
-            </a>
-        </div>
-        
-        <h1 class="main-title">Type C Professional Development Training Report Generator</h1>
-        
-        <!-- Tabbed Progress Navigation -->
-        <div class="progress-container">
-            <div class="progress-bar">
-                <div class="progress-step active" id="progress-step-1">
-                    <span class="material-icons">description</span>
-                    Form Details
-                </div>
-                <div class="progress-step" id="progress-step-2">
-                    <span class="material-icons">bar_chart</span>
-                    Feedback Charts
-                </div>
-                <div class="progress-step" id="progress-step-3">
-                    <span class="material-icons">collections</span>
-                    Gallery & Annexures
-                </div>
-            </div>
-        </div>
-        
-        <div class="tab-content-wrapper">
-        
-        <form action="{{ url_for('type_c.generate_report') }}" method="post" enctype="multipart/form-data" id="multiStepForm">
-            <!-- Step 1: Basic Information -->
-            <div class="step active" id="step1">
-                <div class="section-header">
-                    <span class="material-icons section-icon">article</span>
-                    <div>
-                        <div class="section-title">Report Details</div>
-                        <div class="section-subtitle">Basic information for your Professional Development training report</div>
-                    </div>
-                </div>
-                
-                <!-- Template Selection -->
-                <div class="form-group">
-                    <label for="selected_template">Select Organization Template:</label>
-                    <select name="selected_template" id="selected_template" required>
-                        <option value="1">Template 1</option>
-                        <option value="2">Template 2</option>
-                        <option value="3">Template 3</option>
-                        <option value="4">Template 4</option>
-                        <option value="5">Template 5</option>
-                    </select>
-                </div>
-                
-                <!-- Date Range -->
-                <div class="form-group">
-                    <label for="start_date">Training Start Date:</label>
-                    <input type="date" name="start_date" id="start_date" required>
-                </div>
-                
-                <div class="form-group">
-                    <label for="end_date">Training End Date:</label>
-                    <input type="date" name="end_date" id="end_date" required>
-                </div>
-                
-                <!-- Organization Details -->
-                <div class="form-group">
-                    <label for="cell_name">Organization/Cell Name:</label>
-                    <input type="text" name="cell_name" id="cell_name" required>
-                </div>
-                
-                <div class="form-group">
-                    <label for="address">Address:</label>
-                    <textarea name="address" id="address" rows="3" required></textarea>
-                </div>
-                
-                <!-- Submission Details -->
-                <div class="form-group">
-                    <label for="submitted_to">Submitted To:</label>
-                    <input type="text" name="submitted_to" id="submitted_to" required>
-                </div>
-                
-                <div class="form-group">
-                    <label for="submitted_by">Submitted By:</label>
-                    <input type="text" name="submitted_by" id="submitted_by" required>
-                </div>
-                
-                <!-- Officials -->
-                <div class="form-group">
-                    <label for="senior_official">Senior Official:</label>
-                    <input type="text" name="senior_official" id="senior_official">
-                </div>
-                
-                <div class="form-group">
-                    <label for="chief_guest_name">Chief Guest Name:</label>
-                    <input type="text" name="chief_guest_name" id="chief_guest_name">
-                </div>
-                
-                <div class="form-group">
-                    <label for="guidance_person">Guidance Person:</label>
-                    <input type="text" name="guidance_person" id="guidance_person">
-                </div>
-                
-                <!-- Trainers -->
-                <div class="form-group">
-                    <label for="trainer_name_1">Trainer Name 1:</label>
-                    <input type="text" name="trainer_name_1" id="trainer_name_1" required>
-                </div>
-                
-                <div class="form-group">
-                    <label for="trainer_name_2">Trainer Name 2:</label>
-                    <input type="text" name="trainer_name_2" id="trainer_name_2">
-                </div>
-                
-                <!-- Participants -->
-                <div class="form-group">
-                    <label for="participant_department">Participant Department:</label>
-                    <input type="text" name="participant_department" id="participant_department" required>
-                </div>
-                
-                <div class="form-group">
-                    <label for="participant_no">Number of Participants:</label>
-                    <input type="number" name="participant_no" id="participant_no" min="1" required>
-                </div>
-                
-                <div class="step-navigation">
-                    <button type="button" class="btn btn-next" onclick="nextStep()">Next: Feedback Charts</button>
-                </div>
-            </div>
-            
-            <!-- Step 2: Feedback Charts -->
-            <div class="step" id="step2">
-                <div class="section-header">
-                    <span class="material-icons section-icon">bar_chart</span>
-                    <div>
-                        <div class="section-title">Feedback Survey Data</div>
-                        <div class="section-subtitle">Enter participant feedback counts for chart generation</div>
-                    </div>
-                </div>
-                
-                <!-- Question 1 -->
-                <div class="feedback-question">
-                    <h3>Question 1: The trainer was able to communicate clearly.</h3>
-                    <div class="feedback-row">
-                        <div class="form-group">
-                            <label for="q1_strongly_agree">Strongly Agree:</label>
-                            <input type="number" name="q1_strongly_agree" id="q1_strongly_agree" min="0" value="0">
-                        </div>
-                        <div class="form-group">
-                            <label for="q1_agree">Agree:</label>
-                            <input type="number" name="q1_agree" id="q1_agree" min="0" value="0">
-                        </div>
-                        <div class="form-group">
-                            <label for="q1_partially_agree">Partially Agree:</label>
-                            <input type="number" name="q1_partially_agree" id="q1_partially_agree" min="0" value="0">
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Question 2 -->
-                <div class="feedback-question">
-                    <h3>Question 2: The Content of ECSBC / ENS covered was satisfactory.</h3>
-                    <div class="feedback-row">
-                        <div class="form-group">
-                            <label for="q2_strongly_agree">Strongly Agree:</label>
-                            <input type="number" name="q2_strongly_agree" id="q2_strongly_agree" min="0" value="0">
-                        </div>
-                        <div class="form-group">
-                            <label for="q2_agree">Agree:</label>
-                            <input type="number" name="q2_agree" id="q2_agree" min="0" value="0">
-                        </div>
-                        <div class="form-group">
-                            <label for="q2_partially_agree">Partially Agree:</label>
-                            <input type="number" name="q2_partially_agree" id="q2_partially_agree" min="0" value="0">
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Question 3 -->
-                <div class="feedback-question">
-                    <h3>Question 3: Adequate time was provided for question-and-answer session.</h3>
-                    <div class="feedback-row">
-                        <div class="form-group">
-                            <label for="q3_strongly_agree">Strongly Agree:</label>
-                            <input type="number" name="q3_strongly_agree" id="q3_strongly_agree" min="0" value="0">
-                        </div>
-                        <div class="form-group">
-                            <label for="q3_agree">Agree:</label>
-                            <input type="number" name="q3_agree" id="q3_agree" min="0" value="0">
-                        </div>
-                        <div class="form-group">
-                            <label for="q3_partially_agree">Partially Agree:</label>
-                            <input type="number" name="q3_partially_agree" id="q3_partially_agree" min="0" value="0">
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Question 4 -->
-                <div class="feedback-question">
-                    <h3>Question 4: The content was appropriately described and key concepts conveyed properly.</h3>
-                    <div class="feedback-row">
-                        <div class="form-group">
-                            <label for="q4_strongly_agree">Strongly Agree:</label>
-                            <input type="number" name="q4_strongly_agree" id="q4_strongly_agree" min="0" value="0">
-                        </div>
-                        <div class="form-group">
-                            <label for="q4_agree">Agree:</label>
-                            <input type="number" name="q4_agree" id="q4_agree" min="0" value="0">
-                        </div>
-                        <div class="form-group">
-                            <label for="q4_partially_agree">Partially Agree:</label>
-                            <input type="number" name="q4_partially_agree" id="q4_partially_agree" min="0" value="0">
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="step-navigation">
-                    <button type="button" class="btn btn-prev" onclick="prevStep()">Previous: Form Details</button>
-                    <button type="button" class="btn btn-next" onclick="nextStep()">Next: Gallery & Annexures</button>
-                </div>
-            </div>
-            
-            <!-- Step 3: Gallery and Annexures -->
-            <div class="step" id="step3">
-                <div class="section-header">
-                    <span class="material-icons section-icon">collections</span>
-                    <div>
-                        <div class="section-title">Gallery Images</div>
-                        <div class="section-subtitle">Upload training photos for the gallery section</div>
-                    </div>
-                </div>
-                
-                <!-- Gallery Images -->
-                <div class="gallery-upload">
-                    <div class="gallery-grid" id="gallery-grid">
-                        <div class="gallery-box">
-                            <label for="gallery_image_1" class="image-upload-label">
-                                <span id="plus_1" class="plus-icon">📸</span>
-                                <div class="upload-text">Gallery Image 1</div>
-                                <div class="upload-hint">Click to upload or drag & drop</div>
-                                <img id="preview_1" src="" alt="Image preview" class="preview-img">
-                            </label>
-                            <input type="file" id="gallery_image_1" name="gallery_image_1" accept="image/*" data-preview-id="1">
-                            <input type="text" name="gallery_caption_1" placeholder="Enter image caption" class="caption-input">
-                        </div>
-                    </div>
-                    <button type="button" class="btn-add-more" onclick="addGalleryImage()">
-                        <span class="material-icons">add</span>
-                        Add More Gallery Images
-                    </button>
-                </div>
-                
-                <!-- Annexures -->
-                <div class="section-header" style="margin-top: 2rem;">
-                    <span class="material-icons section-icon">attach_file</span>
-                    <div>
-                        <div class="section-title">Annexure Documents</div>
-                        <div class="section-subtitle">Upload supporting documents for each annexure</div>
-                    </div>
-                </div>
-                
-                <!-- Annexure 1: Flyer -->
-                <div class="annexure-section">
-                    <h4>📄 Annexure I (Flyer of the Training)</h4>
-                    <div class="annexure-grid" id="annexure1-grid">
-                        <div class="gallery-box">
-                            <label>Annexure I Image 1</label>
-                            <label for="annexure1_image_1" class="image-upload-label">
-                                <span id="plus_annexure1_1" class="plus-icon">+</span>
-                                <img id="preview_annexure1_1" src="" alt="Image preview" class="preview-img">
-                            </label>
-                            <input type="file" id="annexure1_image_1" name="annexure1_image_1" accept="image/*" data-preview-id="annexure1_1">
-                            <input type="text" name="annexure1_caption_1" placeholder="Enter image caption" style="width:90%; margin-top:0.5em;">
-                        </div>
-                    </div>
-                    <button type="button" class="btn-add-more" onclick="addAnnexureImage('annexure1')">
-                        <span class="material-icons">add</span>
-                        Add More Annexure I Images
-                    </button>
-                </div>
-                
-                <!-- Annexure 2: Attendance Sheet -->
-                <div class="annexure-section">
-                    <h4>📋 Annexure II (Attendance Sheet)</h4>
-                    <div class="annexure-grid" id="annexure2-grid">
-                        <div class="gallery-box">
-                            <label>Annexure II Image 1</label>
-                            <label for="annexure2_image_1" class="image-upload-label">
-                                <span id="plus_annexure2_1" class="plus-icon">+</span>
-                                <img id="preview_annexure2_1" src="" alt="Image preview" class="preview-img">
-                            </label>
-                            <input type="file" id="annexure2_image_1" name="annexure2_image_1" accept="image/*" data-preview-id="annexure2_1">
-                            <input type="text" name="annexure2_caption_1" placeholder="Enter image caption" style="width:90%; margin-top:0.5em;">
-                        </div>
-                    </div>
-                    <button type="button" class="btn-add-more" onclick="addAnnexureImage('annexure2')">
-                        <span class="material-icons">add</span>
-                        Add More Annexure II Images
-                    </button>
-                </div>
-                
-                <!-- Annexure 3: Feedback Form -->
-                <div class="annexure-section">
-                    <h4>📝 Annexure III (Feedback Form)</h4>
-                    <div class="annexure-grid" id="annexure3-grid">
-                        <div class="gallery-box">
-                            <label>Annexure III Image 1</label>
-                            <label for="annexure3_image_1" class="image-upload-label">
-                                <span id="plus_annexure3_1" class="plus-icon">+</span>
-                                <img id="preview_annexure3_1" src="" alt="Image preview" class="preview-img">
-                            </label>
-                            <input type="file" id="annexure3_image_1" name="annexure3_image_1" accept="image/*" data-preview-id="annexure3_1">
-                            <input type="text" name="annexure3_caption_1" placeholder="Enter image caption" style="width:90%; margin-top:0.5em;">
-                        </div>
-                    </div>
-                    <button type="button" class="btn-add-more" onclick="addAnnexureImage('annexure3')">
-                        <span class="material-icons">add</span>
-                
-                <!-- Annexure 4: Registration Form -->
-                <div class="annexure-section">
-                    <h4>📝 Annexure IV (Registration Form)</h4>
-                    <div class="annexure-grid" id="annexure4-grid">
-                        <div class="gallery-box">
-                            <label>Annexure IV Image 1</label>
-                            <label for="annexure4_image_1" class="image-upload-label">
-                                <span id="plus_annexure4_1" class="plus-icon">+</span>
-                                <img id="preview_annexure4_1" src="" alt="Image preview" class="preview-img">
-                            </label>
-                            <input type="file" id="annexure4_image_1" name="annexure4_image_1" accept="image/*" data-preview-id="annexure4_1">
-                            <input type="text" name="annexure4_caption_1" placeholder="Enter image caption" style="width:90%; margin-top:0.5em;">
-                        </div>
-                    </div>
-                    <button type="button" class="btn-add-more" onclick="addAnnexureImage('annexure4')">
-                        <span class="material-icons">add</span>
-                        Add More Annexure IV Images
-                    </button>
-                </div>
-                
-                <!-- Annexure 5: Registration Form (continued) -->
-                <div class="annexure-section">
-                    <h4>📝 Annexure V (Registration Form continued)</h4>
-                    <div class="annexure-grid" id="annexure5-grid">
-                        <div class="gallery-box">
-                            <label>Annexure V Image 1</label>
-                            <label for="annexure5_image_1" class="image-upload-label">
-                                <span id="plus_annexure5_1" class="plus-icon">+</span>
-                                <img id="preview_annexure5_1" src="" alt="Image preview" class="preview-img">
-                            </label>
-                            <input type="file" id="annexure5_image_1" name="annexure5_image_1" accept="image/*" data-preview-id="annexure5_1">
-                            <input type="text" name="annexure5_caption_1" placeholder="Enter image caption" style="width:90%; margin-top:0.5em;">
-                        </div>
-                    </div>
-                    <button type="button" class="btn-add-more" onclick="addAnnexureImage('annexure5')">
-                        <span class="material-icons">add</span>
-                        Add More Annexure V Images
-                    </button>
-                </div>
-                
-                <!-- Annexure 6: Brochure -->
-                <div class="annexure-section">
-                    <h4>📄 Annexure VI (Brochure)</h4>
-                    <div class="annexure-grid" id="annexure6-grid">
-                        <div class="gallery-box">
-                            <label>Annexure VI Image 1</label>
-                            <label for="annexure6_image_1" class="image-upload-label">
-                                <span id="plus_annexure6_1" class="plus-icon">+</span>
-                                <img id="preview_annexure6_1" src="" alt="Image preview" class="preview-img">
-                            </label>
-                            <input type="file" id="annexure6_image_1" name="annexure6_image_1" accept="image/*" data-preview-id="annexure6_1">
-                            <input type="text" name="annexure6_caption_1" placeholder="Enter image caption" style="width:90%; margin-top:0.5em;">
-                        </div>
-                    </div>
-                    <button type="button" class="btn-add-more" onclick="addAnnexureImage('annexure6')">
-                        <span class="material-icons">add</span>
-                        Add More Annexure VI Images
-                    </button>
-                </div>
-                
-                <div class="step-navigation">
-                    <button type="button" class="btn btn-prev" onclick="prevStep()">Previous: Feedback Charts</button>
-                    <button type="submit" class="btn btn-submit">Generate Type C Report</button>
-                </div>
-            </div>
-        </form>
-        
-        </div> <!-- End tab-content-wrapper -->
-    </div>
-
-    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
-    
     <style>
-        .feedback-question {
-            margin-bottom: 2rem;
-            padding: 1.5rem;
-            border: 1px solid #e0e0e0;
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background-color: #f9fafb;
+            color: #111827;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        /* Header Styles */
+        .header {
+            background: white;
+            border-bottom: 1px solid #e5e7eb;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            padding: 16px 0;
+        }
+
+        .back-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: #2563eb;
+            text-decoration: none;
+            padding: 8px 12px;
+            border-radius: 6px;
+            transition: background-color 0.2s;
+            margin-bottom: 16px;
+            font-size: 14px;
+        }
+
+        .back-button:hover {
+            background-color: #eff6ff;
+        }
+
+        .header-title-section {
+            text-align: center;
+        }
+
+        .header-icon {
+            width: 48px;
+            height: 48px;
+            background: #dbeafe;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 8px;
+        }
+
+        .header-title {
+            font-size: 24px;
+            font-weight: 500;
+            color: #111827;
+            margin-bottom: 4px;
+        }
+
+        /* Tab Navigation */
+        .tab-container {
+            display: flex;
+            justify-content: center;
+            margin-top: 24px;
+        }
+
+        .tab-nav {
+            display: flex;
+            background: #f3f4f6;
+            border-radius: 12px;
+            padding: 4px;
+            gap: 4px;
+        }
+
+        .tab-button {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 16px;
+            border: none;
             border-radius: 8px;
-            background: #f9f9f9;
+            background: transparent;
+            color: #6b7280;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 14px;
+            font-weight: 500;
         }
-        
-        .feedback-question h3 {
-            margin-bottom: 1rem;
-            color: #333;
-            font-size: 1.1rem;
+
+        .tab-button.active {
+            background: white;
+            color: #2563eb;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            border: 1px solid #bfdbfe;
         }
-        
-        .feedback-row {
-            display: grid;
-            grid-template-columns: 1fr 1fr 1fr;
-            gap: 1rem;
+
+        .tab-button:hover:not(.active) {
+            color: #111827;
         }
-        
-        .annexure-section {
-            margin-bottom: 2rem;
-            padding: 1rem;
-            border: 1px solid #e0e0e0;
-            border-radius: 8px;
+
+        .tab-icon {
+            width: 16px;
+            height: 16px;
         }
-        
-        .annexure-section h3 {
-            margin-bottom: 1rem;
-            color: #333;
-            font-size: 1rem;
+
+        /* Content Area */
+        .content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 24px;
         }
-        
-        .upload-row {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 1rem;
-            margin-bottom: 1rem;
+
+        .tab-content {
+            display: none;
         }
-        
-        .gallery-upload .upload-row {
-            margin-bottom: 1rem;
+
+        .tab-content.active {
+            display: block;
         }
-        
-        .caption-input {
-            margin-top: 0.5rem;
-            padding: 0.5rem;
-            border: 1px solid #ddd;
-            border-radius: 4px;
+
+        /* Card Styles */
+        .card {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            margin-bottom: 24px;
+            overflow: hidden;
+        }
+
+        .card-header {
+            height: 4px;
+            background: linear-gradient(to right, #3b82f6, #14b8a6);
+        }
+
+        .card-content {
+            padding: 24px;
+        }
+
+        .card-title {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 16px;
+        }
+
+        .card-title h2 {
+            font-size: 18px;
+            font-weight: 500;
+            color: #111827;
+        }
+
+        .section-icon {
+            width: 20px;
+            height: 20px;
+        }
+
+        /* Form Styles */
+        .form-group {
+            margin-bottom: 16px;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: #374151;
+        }
+
+        .form-input, .form-textarea {
             width: 100%;
-            font-size: 0.9rem;
+            padding: 12px;
+            border: 1px solid #d1d5db;
+            border-radius: 8px;
+            background: #f9fafb;
+            transition: border-color 0.2s, box-shadow 0.2s;
+            font-size: 14px;
+        }
+
+        .form-input:focus, .form-textarea:focus {
+            outline: none;
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        }
+
+        .form-textarea {
+            min-height: 96px;
+            resize: vertical;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 16px;
+        }
+
+        @media (min-width: 768px) {
+            .form-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .form-grid.three-cols {
+                grid-template-columns: 1fr 1fr 1fr;
+            }
+        }
+
+        /* Button Styles */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 16px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 14px;
+            font-weight: 500;
+            text-decoration: none;
+        }
+
+        .btn-primary {
+            background: linear-gradient(to right, #2563eb, #14b8a6);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: linear-gradient(to right, #1d4ed8, #0f766e);
+        }
+
+        .btn-secondary {
+            background: #10b981;
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background: #059669;
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 1px solid #d1d5db;
+            color: #374151;
+        }
+
+        .btn-outline:hover {
+            background: #f9fafb;
+        }
+
+        .btn-small {
+            padding: 6px 12px;
+            font-size: 13px;
+        }
+
+        .btn-large {
+            padding: 12px 24px;
+            font-size: 16px;
+        }
+
+        /* Special Sections */
+        .dashed-box {
+            border: 2px dashed #10b981;
+            border-radius: 12px;
+            padding: 16px;
+            background: #ecfdf5;
+            margin-bottom: 16px;
+        }
+
+        .dashed-box.blue {
+            border-color: #3b82f6;
+            background: #eff6ff;
+        }
+
+        .dashed-box-header {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 16px;
+        }
+
+        .status-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #10b981;
+        }
+
+        .status-dot.blue {
+            background: #3b82f6;
+        }
+
+        .dashed-box-title {
+            font-weight: 500;
+            color: #065f46;
+        }
+
+        .dashed-box-title.blue {
+            color: #1e40af;
+        }
+
+        .dynamic-section {
+            margin-bottom: 12px;
+        }
+
+        /* Navigation Buttons */
+        .navigation {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 24px;
+        }
+
+        /* Feedback Chart Styles */
+        .question-card {
+            border: 1px solid #fbbf24;
+            background: linear-gradient(to right, #fef3c7, #fde68a);
+        }
+
+        .visual-bar {
+            height: 24px;
+            background: #e5e7eb;
+            border-radius: 12px;
+            overflow: hidden;
+            margin-top: 16px;
+            display: flex;
+        }
+
+        .bar-segment {
+            height: 100%;
+            transition: width 0.3s ease;
+        }
+
+        .bar-segment.strongly-agree { background: #10b981; }
+        .bar-segment.agree { background: #3b82f6; }
+        .bar-segment.partially-agree { background: #f59e0b; }
+
+        .legend {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 8px;
+            font-size: 12px;
+            color: #6b7280;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .legend-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+
+        /* Image Upload Styles */
+        .upload-area {
+            border: 2px dashed #d1d5db;
+            border-radius: 12px;
+            padding: 24px;
+            text-align: center;
+            margin-bottom: 16px;
+            cursor: pointer;
+            transition: border-color 0.2s;
+        }
+
+        .upload-area:hover {
+            border-color: #9ca3af;
+        }
+
+        .upload-icon {
+            width: 32px;
+            height: 32px;
+            margin: 0 auto 8px;
+            color: #9ca3af;
+        }
+
+        .uploaded-image {
+            border: 1px solid #d1d5db;
+            border-radius: 12px;
+            padding: 16px;
+            background: #f9fafb;
+            margin-bottom: 16px;
+        }
+
+        .image-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 12px;
+        }
+
+        .remove-btn {
+            background: #ef4444;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            padding: 4px 8px;
+            cursor: pointer;
+            font-size: 12px;
+        }
+
+        .remove-btn:hover {
+            background: #dc2626;
+        }
+
+        .image-preview {
+            width: 128px;
+            height: 128px;
+            object-fit: cover;
+            border-radius: 8px;
+            border: 1px solid #d1d5db;
+            margin-bottom: 12px;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        .text-center {
+            text-align: center;
+        }
+
+        .helper-text {
+            font-size: 13px;
+            color: #2563eb;
+            font-style: italic;
+            margin-top: 8px;
+        }
+
+        .space-y-3 > * + * {
+            margin-top: 12px;
+        }
+
+        .space-y-4 > * + * {
+            margin-top: 16px;
+        }
+
+        /* Gallery Styles from Type A */
+        .gallery-section {
+            margin-bottom: 24px;
+        }
+
+        .gallery-grid, .annexure-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 16px;
+            margin-bottom: 16px;
+        }
+
+        .gallery-box {
+            position: relative;
+            border: 2px dashed #d1d5db;
+            border-radius: 12px;
+            padding: 16px;
+            text-align: center;
+            background: #f9fafb;
+            transition: all 0.2s;
+        }
+
+        .gallery-box:hover {
+            border-color: #3b82f6;
+            background: #eff6ff;
+        }
+
+        .image-upload-label {
+            display: block;
+            cursor: pointer;
+            height: 150px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        .plus-icon {
+            font-size: 32px;
+            color: #9ca3af;
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        .upload-text {
+            color: #374151;
+            font-weight: 500;
+            margin-bottom: 4px;
+        }
+
+        .upload-hint {
+            color: #9ca3af;
+            font-size: 12px;
+        }
+
+        .preview-img {
+            display: none;
+            max-width: 100%;
+            max-height: 130px;
+            border-radius: 8px;
+            object-fit: cover;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .gallery-box input[type="file"] {
+            display: none;
+        }
+
+        .btn-add-more {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 16px;
+            background: #10b981;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background 0.2s;
+            font-size: 14px;
+            margin-top: 16px;
+        }
+
+        .btn-add-more:hover {
+            background: #059669;
+        }
+
+        .btn-remove-image {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: #ef4444;
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            line-height: 1;
+            z-index: 10;
+        }
+
+        .btn-remove-image:hover {
+            background: #dc2626;
+        }
+
+        .annexure-section {
+            margin-bottom: 24px;
+        }
+
+        .annexure-section h4 {
+            color: #374151;
+            font-size: 16px;
+            font-weight: 500;
+            margin-bottom: 16px;
+            padding: 12px;
+            background: #f3f4f6;
+            border-radius: 8px;
+            border-left: 4px solid #6366f1;
         }
     </style>
+</head>
+<body>
+    <!-- Header -->
+    <div class="header">
+        <div class="container">
+            <a href="#" class="back-button">
+                <svg class="tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="m12 19-7-7 7-7M19 12H5"/>
+                </svg>
+                Back to Home
+            </a>
+            
+            <div class="header-title-section">
+                <div class="header-icon">
+                    <svg class="tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                        <path d="M14 2v6h6M16 13H8M16 17H8M10 9H8"/>
+                    </svg>
+                </div>
+                <h1 class="header-title">Type C Professional Development Training Report Generator</h1>
+            </div>
+
+            <!-- Tab Navigation -->
+            <div class="tab-container">
+                <div class="tab-nav">
+                    <button class="tab-button active" onclick="switchTab('form-details')">
+                        <svg class="tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                            <path d="M14 2v6h6M16 13H8M16 17H8M10 9H8"/>
+                        </svg>
+                        <span>Form Details</span>
+                    </button>
+                    <button class="tab-button" onclick="switchTab('feedback-charts')">
+                        <svg class="tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M3 3v18h18M18.7 8l-5.1 5.2-2.8-2.7L7 14.3"/>
+                        </svg>
+                        <span>Feedback Charts</span>
+                    </button>
+                    <button class="tab-button" onclick="switchTab('gallery-annexures')">
+                        <svg class="tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="m21 16-4-4-4 4M6 6h.01M6 20h12a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2z"/>
+                        </svg>
+                        <span>Gallery & Annexures</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Content -->
+    <div class="content">
+        <form id="typeC-form" action="{{ url_for('type_c.generate_report') }}" method="post" enctype="multipart/form-data">
+        <!-- Form Details Tab -->
+        <div id="form-details" class="tab-content active">
+            <!-- Organization Details -->
+            <div class="card">
+                <div class="card-header"></div>
+                <div class="card-content">
+                    <div class="card-title">
+                        <svg class="section-icon" viewBox="0 0 24 24" fill="none" stroke="#2563eb" stroke-width="2">
+                            <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+                            <polyline points="9,22 9,12 15,12 15,22"/>
+                        </svg>
+                        <h2>Organization Details</h2>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="cell_name">Organization/Cell Name:</label>
+                        <input type="text" id="cell_name" name="cell_name" class="form-input" required />
+                    </div>
+                </div>
+            </div>
+
+            <!-- Training Venue -->
+            <div class="card">
+                <div class="card-header"></div>
+                <div class="card-content">
+                    <div class="card-title">
+                        <svg class="section-icon" viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="2">
+                            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+                            <circle cx="12" cy="10" r="3"/>
+                        </svg>
+                        <h2>Training Venue</h2>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Venue Address:</label>
+                        <div class="space-y-3">
+                            <input type="text" id="address_line1" name="address_line1" class="form-input" placeholder="Venue Name / Building Name" required />
+                            <input type="text" id="address_line2" name="address_line2" class="form-input" placeholder="Street Address, Area" />
+                            <input type="text" id="address_line3" name="address_line3" class="form-input" placeholder="City, State, PIN Code" />
+                        </div>
+                        <p class="helper-text">Enter the training venue address (not organization address)</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Submission Details -->
+            <div class="card">
+                <div class="card-header"></div>
+                <div class="card-content">
+                    <div class="card-title">
+                        <svg class="section-icon" viewBox="0 0 24 24" fill="none" stroke="#2563eb" stroke-width="2">
+                            <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/>
+                            <circle cx="9" cy="7" r="4"/>
+                            <path d="m22 21-3-3m0 0a5.5 5.5 0 1 0-7.54-.54 5.5 5.5 0 0 0 7.54.54z"/>
+                        </svg>
+                        <h2>Submission Details</h2>
+                    </div>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label class="form-label">Submitted To:</label>
+                            <textarea id="submitted_to" name="submitted_to" class="form-textarea" required></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Submitted By:</label>
+                            <textarea id="submitted_by" name="submitted_by" class="form-textarea" required></textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Officials & Dignitaries -->
+            <div class="card">
+                <div class="card-header"></div>
+                <div class="card-content">
+                    <div class="card-title">
+                        <svg class="section-icon" viewBox="0 0 24 24" fill="none" stroke="#7c3aed" stroke-width="2">
+                            <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/>
+                            <circle cx="9" cy="7" r="4"/>
+                            <path d="m22 21-3-3m0 0a5.5 5.5 0 1 0-7.54-.54 5.5 5.5 0 0 0 7.54.54z"/>
+                        </svg>
+                        <h2>Officials & Dignitaries</h2>
+                    </div>
+                    
+                    <!-- Senior Officials -->
+                    <div class="dashed-box">
+                        <div class="dashed-box-header">
+                            <div class="status-dot"></div>
+                            <h3 class="dashed-box-title">Senior Officials:</h3>
+                        </div>
+                        <div id="seniorOfficials" class="space-y-4">
+                            <div class="dynamic-section">
+                                <div class="form-grid">
+                                    <input type="text" name="senior_official_1" class="form-input" placeholder="Senior Official Name" />
+                                    <input type="text" name="senior_official_designation_1" class="form-input" placeholder="Designation" />
+                                </div>
+                            </div>
+                        </div>
+                        <button type="button" class="btn btn-secondary btn-small" onclick="addSeniorOfficial()">
+                            <svg class="tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M5 12h14M12 5v14"/>
+                            </svg>
+                            Add Another Official
+                        </button>
+                    </div>
+
+                    <!-- Chief Guest -->
+                    <div class="form-group">
+                        <label class="form-label">Chief Guest Name:</label>
+                        <div class="form-grid">
+                            <input type="text" id="chief_guest_name" name="chief_guest_name" class="form-input" placeholder="Chief Guest Name" />
+                            <input type="text" id="chief_guest_designation" name="chief_guest_designation" class="form-input" placeholder="Designation" />
+                        </div>
+                    </div>
+
+                    <!-- Guidance Person -->
+                    <div class="form-group">
+                        <label class="form-label">Guidance Person:</label>
+                        <div class="form-grid">
+                            <input type="text" id="guidance_person" name="guidance_person" class="form-input" placeholder="Guidance Person Name" />
+                            <input type="text" id="guidance_person_designation" name="guidance_person_designation" class="form-input" placeholder="Designation" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Training Faculty -->
+            <div class="card">
+                <div class="card-header"></div>
+                <div class="card-content">
+                    <div class="card-title">
+                        <svg class="section-icon" viewBox="0 0 24 24" fill="none" stroke="#6b7280" stroke-width="2">
+                            <path d="M22 10v6M2 10l10-5 10 5-10 5z"/>
+                            <path d="M6 12v5c3 3 9 3 12 0v-5"/>
+                        </svg>
+                        <h2>Training Faculty</h2>
+                    </div>
+
+                    <!-- First Trainer -->
+                    <div class="dashed-box blue">
+                        <div class="dashed-box-header">
+                            <svg class="tab-icon" viewBox="0 0 24 24" fill="none" stroke="#2563eb" stroke-width="2">
+                                <path d="M22 10v6M2 10l10-5 10 5-10 5z"/>
+                                <path d="M6 12v5c3 3 9 3 12 0v-5"/>
+                            </svg>
+                            <h3 class="dashed-box-title blue">First Trainer</h3>
+                        </div>
+                        <div class="form-grid">
+                            <input type="text" id="trainer_name_1" name="trainer_name_1" class="form-input" placeholder="First Trainer Name" required />
+                            <input type="text" id="trainer_designation_1" name="trainer_designation_1" class="form-input" placeholder="Designation" />
+                        </div>
+                    </div>
+
+                    <!-- Second Trainer -->
+                    <div class="dashed-box blue">
+                        <div class="dashed-box-header">
+                            <svg class="tab-icon" viewBox="0 0 24 24" fill="none" stroke="#2563eb" stroke-width="2">
+                                <path d="M22 10v6M2 10l10-5 10 5-10 5z"/>
+                                <path d="M6 12v5c3 3 9 3 12 0v-5"/>
+                            </svg>
+                            <h3 class="dashed-box-title blue">Second Trainer</h3>
+                        </div>
+                        <div class="form-grid">
+                            <input type="text" id="trainer_name_2" name="trainer_name_2" class="form-input" placeholder="Second Trainer Name" />
+                            <input type="text" id="trainer_designation_2" name="trainer_designation_2" class="form-input" placeholder="Designation" />
+                        </div>
+                    </div>
+
+                    <!-- Additional Trainers -->
+                    <div class="dashed-box">
+                        <div class="dashed-box-header">
+                            <div class="status-dot"></div>
+                            <h3 class="dashed-box-title">Additional Trainers (Optional):</h3>
+                        </div>
+                        <div id="additionalTrainers" class="space-y-4">
+                            <!-- Dynamic trainers will be added here -->
+                        </div>
+                        <button type="button" class="btn btn-secondary btn-small" onclick="addAdditionalTrainer()">
+                            <svg class="tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M5 12h14M12 5v14"/>
+                            </svg>
+                            Add Additional Trainer
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Participant Information -->
+            <div class="card">
+                <div class="card-header"></div>
+                <div class="card-content">
+                    <div class="card-title">
+                        <svg class="section-icon" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2">
+                            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                            <circle cx="9" cy="7" r="4"/>
+                            <path d="m22 21-3-3m0 0a5.5 5.5 0 1 0-7.54-.54 5.5 5.5 0 0 0 7.54.54z"/>
+                        </svg>
+                        <h2>Participant Information</h2>
+                    </div>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label class="form-label" for="participant_department">Participant Department:</label>
+                            <input type="text" id="participant_department" name="participant_department" class="form-input" placeholder="Department/Organization of Participants" required />
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="participant_no">Number of Participants:</label>
+                            <input type="number" id="participant_no" name="participant_no" class="form-input" placeholder="Total participants" min="1" required />
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Training Schedule -->
+            <div class="card">
+                <div class="card-header"></div>
+                <div class="card-content">
+                    <div class="card-title">
+                        <svg class="section-icon" viewBox="0 0 24 24" fill="none" stroke="#059669" stroke-width="2">
+                            <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+                            <line x1="16" y1="2" x2="16" y2="6"/>
+                            <line x1="8" y1="2" x2="8" y2="6"/>
+                            <line x1="3" y1="10" x2="21" y2="10"/>
+                        </svg>
+                        <h2>Training Schedule</h2>
+                    </div>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label class="form-label" for="start_date">Start Date:</label>
+                            <input type="date" id="start_date" name="start_date" class="form-input" required />
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="end_date">End Date:</label>
+                            <input type="date" id="end_date" name="end_date" class="form-input" required />
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Navigation -->
+            <div class="navigation">
+                <button type="button" class="btn btn-outline" disabled>Previous: Form Details</button>
+                <button type="button" class="btn btn-primary" onclick="switchTab('feedback-charts')">Next: Feedback Charts</button>
+            </div>
+        </div>
+
+        <!-- Feedback Charts Tab -->
+        <div id="feedback-charts" class="tab-content">
+            <!-- Header -->
+            <div class="card">
+                <div class="card-header"></div>
+                <div class="card-content">
+                    <div class="card-title">
+                        <svg class="section-icon" viewBox="0 0 24 24" fill="none" stroke="#2563eb" stroke-width="2">
+                            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+                        </svg>
+                        <h2>Feedback Survey Data</h2>
+                    </div>
+                    <p style="color: #6b7280; font-size: 14px;">Enter participant feedback counts for chart generation</p>
+                </div>
+            </div>
+
+            <!-- Questions -->
+            <div class="space-y-4" id="feedbackQuestions">
+                <!-- Questions will be generated by JavaScript -->
+            </div>
+
+            <!-- Navigation -->
+            <div class="navigation">
+                <button type="button" class="btn btn-outline" onclick="switchTab('form-details')">Previous: Form Details</button>
+                <button type="button" class="btn btn-primary" onclick="switchTab('gallery-annexures')">Next: Gallery & Annexures</button>
+            </div>
+        </div>
+
+        <!-- Gallery & Annexures Tab -->
+        <div id="gallery-annexures" class="tab-content">
+            <!-- Gallery Images -->
+            <div class="gallery-section">
+                <div class="section-header">
+                    <span class="material-icons section-icon">photo_library</span>
+                    <div>
+                        <div class="section-title">Photo Gallery</div>
+                        <div class="section-subtitle">Upload images to showcase your training program</div>
+                    </div>
+                </div>
+                <div class="gallery-grid" id="gallery-grid">
+                    <div class="gallery-box">
+                        <label for="gallery_image_1" class="image-upload-label">
+                            <span id="plus_1" class="plus-icon">📸</span>
+                            <div class="upload-text">Gallery Image 1</div>
+                            <div class="upload-hint">Click to upload or drag & drop</div>
+                            <img id="preview_1" src="" alt="Image preview" class="preview-img">
+                        </label>
+                        <input type="file" id="gallery_image_1" name="gallery_image_1" accept="image/*" data-preview-id="1">
+                        <input type="text" name="gallery_caption_1" placeholder="Enter image caption" style="width:90%; margin-top:0.5em;">
+                    </div>
+                </div>
+                <button type="button" class="btn-add-more" onclick="addGalleryImage()">
+                    <span class="material-icons">add</span>
+                    Add More Gallery Images
+                </button>
+            </div>
+
+            <!-- Annexure I -->
+            <div class="annexure-section">
+                <div class="card">
+                    <div class="card-header" style="background: linear-gradient(to right, #6366f1, #7c3aed);"></div>
+                    <div class="card-content">
+                        <h4>📋 Annexure I (Plan of the Training)</h4>
+                        <div class="annexure-grid" id="annexure1-grid">
+                            <div class="gallery-box">
+                                <label>Annexure I Image 1</label>
+                                <label for="annexure1_image_1" class="image-upload-label">
+                                    <span id="plus_annexure1_1" class="plus-icon">+</span>
+                                    <img id="preview_annexure1_1" src="" alt="Image preview" class="preview-img">
+                                </label>
+                                <input type="file" id="annexure1_image_1" name="annexure1_image_1" accept="image/*" data-preview-id="annexure1_1">
+                                <input type="text" name="annexure1_caption_1" placeholder="Enter image caption" style="width:90%; margin-top:0.5em;">
+                            </div>
+                        </div>
+                        <button type="button" class="btn-add-more" onclick="addAnnexureImage('annexure1')">
+                            <svg class="tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M5 12h14M12 5v14"/>
+                            </svg>
+                            Add More Annexure I Images
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Annexure II -->
+            <div class="annexure-section">
+                <div class="card">
+                    <div class="card-header" style="background: linear-gradient(to right, #6366f1, #7c3aed);"></div>
+                    <div class="card-content">
+                        <h4>📄 Annexure II (Attendance Sheet)</h4>
+                        <div class="annexure-grid" id="annexure2-grid">
+                            <div class="gallery-box">
+                                <label>Annexure II Image 1</label>
+                                <label for="annexure2_image_1" class="image-upload-label">
+                                    <span id="plus_annexure2_1" class="plus-icon">+</span>
+                                    <img id="preview_annexure2_1" src="" alt="Image preview" class="preview-img">
+                                </label>
+                                <input type="file" id="annexure2_image_1" name="annexure2_image_1" accept="image/*" data-preview-id="annexure2_1">
+                                <input type="text" name="annexure2_caption_1" placeholder="Enter image caption" style="width:90%; margin-top:0.5em;">
+                            </div>
+                        </div>
+                        <button type="button" class="btn-add-more" onclick="addAnnexureImage('annexure2')">
+                            <svg class="tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M5 12h14M12 5v14"/>
+                            </svg>
+                            Add More Annexure II Images
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Annexure III -->
+            <div class="annexure-section">
+                <div class="card">
+                    <div class="card-header" style="background: linear-gradient(to right, #6366f1, #7c3aed);"></div>
+                    <div class="card-content">
+                        <h4>📝 Annexure III (Feedback Form)</h4>
+                        <div class="annexure-grid" id="annexure3-grid">
+                            <div class="gallery-box">
+                                <label>Annexure III Image 1</label>
+                                <label for="annexure3_image_1" class="image-upload-label">
+                                    <span id="plus_annexure3_1" class="plus-icon">+</span>
+                                    <img id="preview_annexure3_1" src="" alt="Image preview" class="preview-img">
+                                </label>
+                                <input type="file" id="annexure3_image_1" name="annexure3_image_1" accept="image/*" data-preview-id="annexure3_1">
+                                <input type="text" name="annexure3_caption_1" placeholder="Enter image caption" style="width:90%; margin-top:0.5em;">
+                            </div>
+                        </div>
+                        <button type="button" class="btn-add-more" onclick="addAnnexureImage('annexure3')">
+                            <svg class="tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M5 12h14M12 5v14"/>
+                            </svg>
+                            Add More Annexure III Images
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Annexure IV -->
+            <div class="annexure-section">
+                <div class="card">
+                    <div class="card-header" style="background: linear-gradient(to right, #6366f1, #7c3aed);"></div>
+                    <div class="card-content">
+                        <h4>💬 Annexure IV (Registration Form)</h4>
+                        <div class="annexure-grid" id="annexure4-grid">
+                            <div class="gallery-box">
+                                <label>Annexure IV Image 1</label>
+                                <label for="annexure4_image_1" class="image-upload-label">
+                                    <span id="plus_annexure4_1" class="plus-icon">+</span>
+                                    <img id="preview_annexure4_1" src="" alt="Image preview" class="preview-img">
+                                </label>
+                                <input type="file" id="annexure4_image_1" name="annexure4_image_1" accept="image/*" data-preview-id="annexure4_1">
+                                <input type="text" name="annexure4_caption_1" placeholder="Enter image caption" style="width:90%; margin-top:0.5em;">
+                            </div>
+                        </div>
+                        <button type="button" class="btn-add-more" onclick="addAnnexureImage('annexure4')">
+                            <svg class="tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M5 12h14M12 5v14"/>
+                            </svg>
+                            Add More Annexure IV Images
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Annexure V -->
+            <div class="annexure-section">
+                <div class="card">
+                    <div class="card-header" style="background: linear-gradient(to right, #6366f1, #7c3aed);"></div>
+                    <div class="card-content">
+                        <h4>📋 Annexure V (Registration Form continued)</h4>
+                        <div class="annexure-grid" id="annexure5-grid">
+                            <div class="gallery-box">
+                                <label>Annexure V Image 1</label>
+                                <label for="annexure5_image_1" class="image-upload-label">
+                                    <span id="plus_annexure5_1" class="plus-icon">+</span>
+                                    <img id="preview_annexure5_1" src="" alt="Image preview" class="preview-img">
+                                </label>
+                                <input type="file" id="annexure5_image_1" name="annexure5_image_1" accept="image/*" data-preview-id="annexure5_1">
+                                <input type="text" name="annexure5_caption_1" placeholder="Enter image caption" style="width:90%; margin-top:0.5em;">
+                            </div>
+                        </div>
+                        <button type="button" class="btn-add-more" onclick="addAnnexureImage('annexure5')">
+                            <svg class="tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M5 12h14M12 5v14"/>
+                            </svg>
+                            Add More Annexure V Images
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Annexure VI -->
+            <div class="annexure-section">
+                <div class="card">
+                    <div class="card-header" style="background: linear-gradient(to right, #6366f1, #7c3aed);"></div>
+                    <div class="card-content">
+                        <h4>📄 Annexure VI (Brochure)</h4>
+                        <div class="annexure-grid" id="annexure6-grid">
+                            <div class="gallery-box">
+                                <label>Annexure VI Image 1</label>
+                                <label for="annexure6_image_1" class="image-upload-label">
+                                    <span id="plus_annexure6_1" class="plus-icon">+</span>
+                                    <img id="preview_annexure6_1" src="" alt="Image preview" class="preview-img">
+                                </label>
+                                <input type="file" id="annexure6_image_1" name="annexure6_image_1" accept="image/*" data-preview-id="annexure6_1">
+                                <input type="text" name="annexure6_caption_1" placeholder="Enter image caption" style="width:90%; margin-top:0.5em;">
+                            </div>
+                        </div>
+                        <button type="button" class="btn-add-more" onclick="addAnnexureImage('annexure6')">
+                            <svg class="tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M5 12h14M12 5v14"/>
+                            </svg>
+                            Add More Annexure VI Images
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Navigation -->
+            <div class="navigation">
+                <button type="button" class="btn btn-outline" onclick="switchTab('feedback-charts')">Previous: Feedback Charts</button>
+                <button type="button" class="btn btn-primary btn-large" onclick="generateReport()" style="background: linear-gradient(to right, #059669, #14b8a6);">Generate Final Report</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Global state
+        let currentTab = 'form-details';
+        let seniorOfficialCount = 1;
+        let additionalTrainerCount = 0;
+        let galleryImageCount = 0;
+        let annexureImageCounts = {};
+
+        // Questions data
+        const questions = [
+            {
+                id: 1,
+                text: 'The trainer was able to communicate clearly.',
+                stronglyAgree: 0,
+                agree: 0,
+                partiallyAgree: 0
+            },
+            {
+                id: 2,
+                text: 'The Content of ECSBC / ENS covered was satisfactory.',
+                stronglyAgree: 0,
+                agree: 0,
+                partiallyAgree: 0
+            },
+            {
+                id: 3,
+                text: 'Adequate time was provided for question-and-answer session.',
+                stronglyAgree: 0,
+                agree: 0,
+                partiallyAgree: 0
+            },
+            {
+                id: 4,
+                text: 'The content was appropriately described and key concepts conveyed properly.',
+                stronglyAgree: 0,
+                agree: 0,
+                partiallyAgree: 0
+            }
+        ];
+
+        // Annexure sections
+        const annexureSections = [
+            { id: 1, title: 'Annexure I (Plan of the Training)', description: 'Upload training plans for the annexure.' },
+            { id: 2, title: 'Annexure II (Attendance Sheet)', description: 'Upload attendance sheets for the annexure.' },
+            { id: 3, title: 'Annexure III (Feedback Form)', description: 'Upload feedback forms for the annexure.' },
+            { id: 4, title: 'Annexure IV (Registration Form)', description: 'Upload registration forms for the annexure.' },
+            { id: 5, title: 'Annexure V (Registration Form continued)', description: 'Upload additional registration forms for the annexure.' },
+            { id: 6, title: 'Annexure VI (Brochure)', description: 'Upload brochures for the annexure.' }
+        ];
+
+        // Initialize annexure image counts
+        annexureSections.forEach(section => {
+            annexureImageCounts[section.id] = 0;
+        });
+
+        // Tab switching
+        function switchTab(tabId) {
+            console.log('Switching to tab:', tabId);
+            
+            // Hide all tabs
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // Remove active class from all tab buttons
+            document.querySelectorAll('.tab-button').forEach(button => {
+                button.classList.remove('active');
+            });
+            
+            // Show selected tab
+            const selectedTab = document.getElementById(tabId);
+            if (selectedTab) {
+                selectedTab.classList.add('active');
+            }
+            
+            // Activate the correct tab button based on tabId
+            const tabButtons = document.querySelectorAll('.tab-button');
+            if (tabId === 'form-details') {
+                tabButtons[0].classList.add('active');
+            } else if (tabId === 'feedback-charts') {
+                tabButtons[1].classList.add('active');
+            } else if (tabId === 'gallery-annexures') {
+                tabButtons[2].classList.add('active');
+            }
+            
+            currentTab = tabId;
+        }
+
+        // Add senior official
+        function addSeniorOfficial() {
+            seniorOfficialCount++;
+            const container = document.getElementById('seniorOfficials');
+            const div = document.createElement('div');
+            div.className = 'dynamic-section';
+            div.innerHTML = `
+                <div class="form-grid">
+                    <input type="text" name="senior_official_${seniorOfficialCount}" class="form-input" placeholder="Senior Official Name" />
+                    <input type="text" name="senior_official_designation_${seniorOfficialCount}" class="form-input" placeholder="Designation" />
+                </div>
+            `;
+            container.appendChild(div);
+        }
+
+        // Add additional trainer
+        function addAdditionalTrainer() {
+            additionalTrainerCount++;
+            const trainerNumber = additionalTrainerCount + 2; // Starting from 3rd trainer
+            const container = document.getElementById('additionalTrainers');
+            const div = document.createElement('div');
+            div.className = 'dynamic-section';
+            div.innerHTML = `
+                <div class="form-grid">
+                    <input type="text" name="trainer_name_${trainerNumber}" class="form-input" placeholder="Additional Trainer Name" />
+                    <input type="text" name="trainer_designation_${trainerNumber}" class="form-input" placeholder="Designation" />
+                </div>
+            `;
+            container.appendChild(div);
+        }
+
+        // Update question rating
+        function updateQuestionRating(questionId, ratingType, value) {
+            const question = questions.find(q => q.id === questionId);
+            if (question) {
+                question[ratingType] = parseInt(value) || 0;
+                updateVisualBar(questionId);
+            }
+        }
+
+        // Update visual feedback bar
+        function updateVisualBar(questionId) {
+            const question = questions.find(q => q.id === questionId);
+            if (!question) return;
+
+            const total = question.stronglyAgree + question.agree + question.partiallyAgree;
+            const bar = document.getElementById(`bar-${questionId}`);
+            
+            if (total === 0) {
+                bar.innerHTML = '<div style="width: 100%; height: 100%; background: #e5e7eb;"></div>';
+                return;
+            }
+
+            const stronglyAgreePercent = (question.stronglyAgree / total) * 100;
+            const agreePercent = (question.agree / total) * 100;
+            const partiallyAgreePercent = (question.partiallyAgree / total) * 100;
+
+            bar.innerHTML = `
+                <div class="bar-segment strongly-agree" style="width: ${stronglyAgreePercent}%" title="Strongly Agree: ${question.stronglyAgree}"></div>
+                <div class="bar-segment agree" style="width: ${agreePercent}%" title="Agree: ${question.agree}"></div>
+                <div class="bar-segment partially-agree" style="width: ${partiallyAgreePercent}%" title="Partially Agree: ${question.partiallyAgree}"></div>
+            `;
+        }
+
+        // Generate report
+        function generateReport() {
+            // Validate required fields
+            const requiredFields = ['cell_name', 'address_line1', 'submitted_to', 'submitted_by', 'trainer_name_1', 'participant_department', 'participant_no', 'start_date', 'end_date'];
+            for (let field of requiredFields) {
+                const element = document.querySelector(`[name="${field}"]`);
+                if (!element || !element.value.trim()) {
+                    alert(`Please fill in the required field: ${field.replace('_', ' ')}`);
+                    return;
+                }
+            }
+            
+            // Submit the form
+            document.getElementById('typeC-form').submit();
+        }
+
+        // Initialize feedback questions
+        function initializeFeedbackQuestions() {
+            const container = document.getElementById('feedbackQuestions');
+            if (!container) {
+                console.error('Feedback questions container not found');
+                return;
+            }
+            
+            // Clear existing content
+            container.innerHTML = '';
+            
+            questions.forEach((question, index) => {
+                const div = document.createElement('div');
+                div.className = 'card question-card';
+                div.innerHTML = `
+                    <div class="card-header" style="background: linear-gradient(to right, #f59e0b, #fbbf24);"></div>
+                    <div class="card-content">
+                        <div style="margin-bottom: 16px;">
+                            <label class="form-label">Question ${index + 1}: ${question.text}</label>
+                        </div>
+                        
+                        <div class="form-grid three-cols">
+                            <div class="form-group">
+                                <label class="form-label" style="color: #065f46;">Strongly Agree:</label>
+                                <input type="number" min="0" value="${question.stronglyAgree}" 
+                                       name="question_${question.id}_strongly_agree"
+                                       class="form-input" style="background: #ecfdf5; border-color: #10b981;"
+                                       onchange="updateQuestionRating(${question.id}, 'stronglyAgree', this.value)"
+                                       placeholder="0" />
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label" style="color: #1e40af;">Agree:</label>
+                                <input type="number" min="0" value="${question.agree}"
+                                       name="question_${question.id}_agree"
+                                       class="form-input" style="background: #eff6ff; border-color: #3b82f6;"
+                                       onchange="updateQuestionRating(${question.id}, 'agree', this.value)"
+                                       placeholder="0" />
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label" style="color: #b45309;">Partially Agree:</label>
+                                <input type="number" min="0" value="${question.partiallyAgree}"
+                                       name="question_${question.id}_partially_agree"
+                                       class="form-input" style="background: #fef3c7; border-color: #f59e0b;"
+                                       onchange="updateQuestionRating(${question.id}, 'partiallyAgree', this.value)"
+                                       placeholder="0" />
+                            </div>
+                        </div>
+                        
+                        <div class="visual-bar" id="bar-${question.id}">
+                            <div style="width: 100%; height: 100%; background: #e5e7eb;"></div>
+                        </div>
+                        <div class="legend">
+                            <span class="legend-item">
+                                <div class="legend-dot" style="background: #10b981;"></div>
+                                Strongly Agree
+                            </span>
+                            <span class="legend-item">
+                                <div class="legend-dot" style="background: #3b82f6;"></div>
+                                Agree
+                            </span>
+                            <span class="legend-item">
+                                <div class="legend-dot" style="background: #f59e0b;"></div>
+                                Partially Agree
+                            </span>
+                        </div>
+                    </div>
+                `;
+                container.appendChild(div);
+            });
+            console.log('Feedback questions initialized successfully');
+        }
+
+        // Initialize the application
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('DOM Content Loaded - Initializing Type C form...');
+            
+            try {
+                // Initialize feedback questions
+                initializeFeedbackQuestions();
+                
+                // Initialize image upload functionality
+                initializeImageUploads();
+                
+                console.log('Type C form initialization completed successfully');
+            } catch (error) {
+                console.error('Error during initialization:', error);
+            }
+        });
+
+        // Image Upload Functionality from Type A
+        let galleryCount = 1;
+        let annexureCounters = {
+            annexure1: 1,
+            annexure2: 1,
+            annexure3: 1,
+            annexure4: 1,
+            annexure5: 1,
+            annexure6: 1
+        };
+
+        // Initialize image upload functionality
+        function initializeImageUploads() {
+            const fileInputs = document.querySelectorAll('input[type="file"]');
+            fileInputs.forEach(input => {
+                addFileInputListener(input);
+            });
+        }
+
+        // Helper function to add file input listeners
+        function addFileInputListener(input) {
+            input.addEventListener('change', function(e) {
+                const file = e.target.files[0];
+                const previewId = e.target.getAttribute('data-preview-id');
+                const previewImg = document.getElementById(`preview_${previewId}`);
+                const plusIcon = document.getElementById(`plus_${previewId}`);
+                
+                if (file && previewImg) {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        previewImg.src = e.target.result;
+                        previewImg.style.display = 'block';
+                        if (plusIcon) plusIcon.style.display = 'none';
+                    };
+                    reader.readAsDataURL(file);
+                }
+            });
+        }
+
+        // Add Gallery Image
+        window.addGalleryImage = function() {
+            galleryCount++;
+            const galleryGrid = document.getElementById('gallery-grid');
+            const newBox = document.createElement('div');
+            newBox.className = 'gallery-box';
+            newBox.innerHTML = `
+                <button type="button" class="btn-remove-image" onclick="removeImageBox(this)">×</button>
+                <label for="gallery_image_${galleryCount}" class="image-upload-label">
+                    <span id="plus_${galleryCount}" class="plus-icon">📸</span>
+                    <div class="upload-text">Gallery Image ${galleryCount}</div>
+                    <div class="upload-hint">Click to upload or drag & drop</div>
+                    <img id="preview_${galleryCount}" src="" alt="Image preview" class="preview-img">
+                </label>
+                <input type="file" id="gallery_image_${galleryCount}" name="gallery_image_${galleryCount}" accept="image/*" data-preview-id="${galleryCount}">
+                <input type="text" name="gallery_caption_${galleryCount}" placeholder="Enter image caption" style="width:90%; margin-top:0.5em;">
+            `;
+            galleryGrid.appendChild(newBox);
+            
+            // Add event listener for the new file input
+            const newInput = newBox.querySelector('input[type="file"]');
+            addFileInputListener(newInput);
+        };
+
+        // Add Annexure Image
+        window.addAnnexureImage = function(annexureType) {
+            annexureCounters[annexureType]++;
+            const count = annexureCounters[annexureType];
+            const grid = document.getElementById(`${annexureType}-grid`);
+            const newBox = document.createElement('div');
+            newBox.className = 'gallery-box';
+            newBox.innerHTML = `
+                <button type="button" class="btn-remove-image" onclick="removeImageBox(this)">×</button>
+                <label>${annexureType.charAt(0).toUpperCase() + annexureType.slice(1)} Image ${count}</label>
+                <label for="${annexureType}_image_${count}" class="image-upload-label">
+                    <span id="plus_${annexureType}_${count}" class="plus-icon">+</span>
+                    <img id="preview_${annexureType}_${count}" src="" alt="Image preview" class="preview-img">
+                </label>
+                <input type="file" id="${annexureType}_image_${count}" name="${annexureType}_image_${count}" accept="image/*" data-preview-id="${annexureType}_${count}">
+                <input type="text" name="${annexureType}_caption_${count}" placeholder="Enter image caption" style="width:90%; margin-top:0.5em;">
+            `;
+            grid.appendChild(newBox);
+            
+            // Add event listener for the new file input
+            const newInput = newBox.querySelector('input[type="file"]');
+            addFileInputListener(newInput);
+        };
+
+        // Remove Image Box
+        window.removeImageBox = function(button) {
+            button.closest('.gallery-box').remove();
+        };
+    </script>
 </body>
 </html>
