@@ -17,6 +17,7 @@ sys.path.append(os.path.join(os.path.dirname(__file__), '..', '..'))
 from modules.document_utils import find_and_replace_text, find_and_replace_image, save_uploaded_file
 from modules.image_processing import insert_gallery_table, get_annexure_images_and_captions, insert_annexure_images
 from modules.form_processing import process_form_data, process_gallery_images
+from modules.chart_processing import generate_feedback_charts, insert_charts_in_document
 
 # Create Type C blueprint
 type_c_bp = Blueprint('type_c', __name__, url_prefix='/type-c')
@@ -80,18 +81,39 @@ def process_type_c_form_data(request):
     else:
         formatted_address = address_line1 or request.form.get('address', '')
     
+    # Create one-line address format
+    address_parts = []
+    if address_line1:
+        address_parts.append(address_line1)
+    if address_line2:
+        address_parts.append(address_line2)
+    if address_line3:
+        address_parts.append(address_line3)
+    
+    formatted_address_oneline = ', '.join(address_parts) if address_parts else request.form.get('address', '')
+    
     # Process dynamic officials
     senior_officials = []
     i = 1
     while True:
+        official_prefix = request.form.get(f'senior_official_prefix_{i}', '')
         official_name = request.form.get(f'senior_official_{i}', '')
         official_designation = request.form.get(f'senior_official_designation_{i}', '')
         if not official_name:
             break
+        
+        # Format as "Prefix Name (Designation)"
+        formatted_official = ""
+        if official_prefix and official_name:
+            formatted_official = f"{official_prefix} {official_name}"
+        elif official_name:
+            formatted_official = official_name
+            
         if official_designation:
-            senior_officials.append(f"{official_name}, {official_designation}")
-        else:
-            senior_officials.append(official_name)
+            formatted_official += f" ({official_designation})"
+            
+        if formatted_official:
+            senior_officials.append(formatted_official)
         i += 1
     
     senior_officials_text = '; '.join(senior_officials) if senior_officials else ''
@@ -100,33 +122,71 @@ def process_type_c_form_data(request):
     trainers = []
     i = 1
     while True:
+        trainer_prefix = request.form.get(f'trainer_prefix_{i}', '')
         trainer_name = request.form.get(f'trainer_name_{i}', '')
         trainer_designation = request.form.get(f'trainer_designation_{i}', '')
         if not trainer_name:
             break
+            
+        # Format as "Prefix Name (Designation)"
+        formatted_trainer = ""
+        if trainer_prefix and trainer_name:
+            formatted_trainer = f"{trainer_prefix} {trainer_name}"
+        elif trainer_name:
+            formatted_trainer = trainer_name
+            
         if trainer_designation:
-            trainers.append(f"{trainer_name}, {trainer_designation}")
-        else:
-            trainers.append(trainer_name)
+            formatted_trainer += f" ({trainer_designation})"
+            
+        if formatted_trainer:
+            trainers.append(formatted_trainer)
         i += 1
     
     # Get first two trainers for specific placeholders
     trainer_1 = trainers[0] if len(trainers) > 0 else ''
     trainer_2 = trainers[1] if len(trainers) > 1 else ''
     
-    # Chief Guest with designation
+    # Chief Guest with prefix and designation in brackets
+    chief_guest_prefix = request.form.get('chief_guest_prefix', '')
     chief_guest_name = request.form.get('chief_guest_name', '')
     chief_guest_designation = request.form.get('chief_guest_designation', '')
-    chief_guest_full = f"{chief_guest_name}, {chief_guest_designation}" if chief_guest_name and chief_guest_designation else chief_guest_name
+    
+    # Format as "Prefix Name (Designation)"
+    chief_guest_full = ""
+    if chief_guest_prefix and chief_guest_name:
+        chief_guest_full = f"{chief_guest_prefix} {chief_guest_name}"
+    elif chief_guest_name:
+        chief_guest_full = chief_guest_name
+        
+    if chief_guest_designation:
+        chief_guest_full += f" ({chief_guest_designation})"
+    
+    # Guidance Person with prefix and designation in brackets
+    guidance_person_prefix = request.form.get('guidance_person_prefix', '')
+    guidance_person_name = request.form.get('guidance_person', '')
+    guidance_person_designation = request.form.get('guidance_person_designation', '')
+    
+    # Format as "Prefix Name (Designation)"
+    guidance_person_full = ""
+    if guidance_person_prefix and guidance_person_name:
+        guidance_person_full = f"{guidance_person_prefix} {guidance_person_name}"
+    elif guidance_person_name:
+        guidance_person_full = guidance_person_name
+        
+    if guidance_person_designation:
+        guidance_person_full += f" ({guidance_person_designation})"
     
     # Type C specific placeholders as provided by user
     type_c_data = {
         '{{EVENT_DATE}}': basic_data.get('{{EVENT_DATE}}', request.form.get('start_date', '')),
         '{{ADDRESS}}': formatted_address,
+        '{{ADDRESS_ONELINE}}': formatted_address_oneline,
         '{{Submitted_to}}': request.form.get('submitted_to', ''),
         '{{Submitted_by}}': request.form.get('submitted_by', ''),
         '{{Senior_Official}}': senior_officials_text,
         '{{Chief_Guest_Name}}': chief_guest_full,
+        '{{CHIEF_GUESTS}}': chief_guest_full,  # Also support this placeholder format
+        '{{GUIDANCE_PERSON}}': guidance_person_full,
         '{{Trainer_Name_1}}': trainer_1,
         '{{Trainer_Name_2}}': trainer_2,
         '{{ Participant_Department }}': request.form.get('participant_department', ''),  # With spaces
@@ -207,6 +267,25 @@ def generate_report():
             print("⚠️ No gallery images to insert")
             # Remove the {{GALLERY_TABLE}} placeholder even if no images
             find_and_replace_text(doc, '{{GALLERY_TABLE}}', 'No gallery images uploaded')
+
+        # Generate and insert feedback charts
+        try:
+            print("📊 Generating feedback charts...")
+            chart_paths = generate_feedback_charts(request)
+            insert_charts_in_document(doc, chart_paths)
+            print(f"✅ Feedback charts processed: {len(chart_paths)} charts generated")
+        except ImportError as e:
+            print(f"⚠️ Chart generation requires matplotlib: {str(e)}")
+            # Handle both old and new placeholder formats
+            find_and_replace_text(doc, '{{FEEDBACK_CHARTS}}', 'Chart generation unavailable - matplotlib not installed')
+            for i in range(1, 5):
+                find_and_replace_text(doc, f'{{{{FEEDBACK_CHART_{i}}}}}', 'Chart generation unavailable')
+        except Exception as e:
+            print(f"❌ Error generating charts: {str(e)}")
+            # Handle both old and new placeholder formats
+            find_and_replace_text(doc, '{{FEEDBACK_CHARTS}}', f'Error generating charts: {str(e)}')
+            for i in range(1, 5):
+                find_and_replace_text(doc, f'{{{{FEEDBACK_CHART_{i}}}}}', f'Error generating charts')
 
         # Process annexure images for Type C (6 annexures)
         annexure_placeholders = [

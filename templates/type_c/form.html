@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Type C Professional Development Training Report Generator</title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -267,6 +268,29 @@
 
         .btn-large {
             padding: 12px 24px;
+            font-size: 16px;
+        }
+
+        /* Template Info Styles */
+        .template-info {
+            display: none;
+            align-items: center;
+            gap: 8px;
+            margin-top: 8px;
+            padding: 8px 12px;
+            background: #eff6ff;
+            border: 1px solid #bfdbfe;
+            border-radius: 6px;
+            color: #1e40af;
+            font-size: 14px;
+            transition: all 0.2s ease;
+        }
+
+        .template-info.show {
+            display: flex;
+        }
+
+        .template-info .material-icons {
             font-size: 16px;
         }
 
@@ -643,8 +667,19 @@
                         <h2>Organization Details</h2>
                     </div>
                     <div class="form-group">
-                        <label class="form-label" for="cell_name">Organization/Cell Name:</label>
-                        <input type="text" id="cell_name" name="cell_name" class="form-input" required />
+                        <label class="form-label" for="cell_name">Select Organization (Template):</label>
+                        <select id="cell_name" name="cell_name" class="form-input" required>
+                            <option value="">Choose your organization...</option>
+                            <option value="RRECL" data-template="1">RRECL - Rajasthan Renewable Energy Corporation (Template 1)</option>
+                            <option value="GEDA" data-template="2">GEDA - Gujarat Energy Development Agency (Template 2)</option>
+                            <option value="HAREDA" data-template="3">HAREDA - Haryana Renewable Energy Development Agency (Template 3)</option>
+                            <option value="UREDA" data-template="4">UREDA - Uttarakhand Renewable Energy Development Agency (Template 4)</option>
+                            <option value="SDA Odisha" data-template="5">SDA Odisha - Skill Development Authority (Template 5)</option>
+                        </select>
+                        <div class="template-info" id="template-info" style="display: none;">
+                            <span class="material-icons">info</span>
+                            <span id="template-text">Template will be selected automatically</span>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -718,7 +753,15 @@
                         </div>
                         <div id="seniorOfficials" class="space-y-4">
                             <div class="dynamic-section">
-                                <div class="form-grid">
+                                <div class="form-grid three-cols">
+                                    <select name="senior_official_prefix_1" class="form-input">
+                                        <option value="">Prefix</option>
+                                        <option value="Mr.">Mr.</option>
+                                        <option value="Ms.">Ms.</option>
+                                        <option value="Mrs.">Mrs.</option>
+                                        <option value="Dr.">Dr.</option>
+                                        <option value="Prof.">Prof.</option>
+                                    </select>
                                     <input type="text" name="senior_official_1" class="form-input" placeholder="Senior Official Name" />
                                     <input type="text" name="senior_official_designation_1" class="form-input" placeholder="Designation" />
                                 </div>
@@ -734,8 +777,16 @@
 
                     <!-- Chief Guest -->
                     <div class="form-group">
-                        <label class="form-label">Chief Guest Name:</label>
-                        <div class="form-grid">
+                        <label class="form-label">Chief Guest:</label>
+                        <div class="form-grid three-cols">
+                            <select id="chief_guest_prefix" name="chief_guest_prefix" class="form-input">
+                                <option value="">Prefix</option>
+                                <option value="Mr.">Mr.</option>
+                                <option value="Ms.">Ms.</option>
+                                <option value="Mrs.">Mrs.</option>
+                                <option value="Dr.">Dr.</option>
+                                <option value="Prof.">Prof.</option>
+                            </select>
                             <input type="text" id="chief_guest_name" name="chief_guest_name" class="form-input" placeholder="Chief Guest Name" />
                             <input type="text" id="chief_guest_designation" name="chief_guest_designation" class="form-input" placeholder="Designation" />
                         </div>
@@ -744,7 +795,15 @@
                     <!-- Guidance Person -->
                     <div class="form-group">
                         <label class="form-label">Guidance Person:</label>
-                        <div class="form-grid">
+                        <div class="form-grid three-cols">
+                            <select id="guidance_person_prefix" name="guidance_person_prefix" class="form-input">
+                                <option value="">Prefix</option>
+                                <option value="Mr.">Mr.</option>
+                                <option value="Ms.">Ms.</option>
+                                <option value="Mrs.">Mrs.</option>
+                                <option value="Dr.">Dr.</option>
+                                <option value="Prof.">Prof.</option>
+                            </select>
                             <input type="text" id="guidance_person" name="guidance_person" class="form-input" placeholder="Guidance Person Name" />
                             <input type="text" id="guidance_person_designation" name="guidance_person_designation" class="form-input" placeholder="Designation" />
                         </div>
@@ -773,7 +832,15 @@
                             </svg>
                             <h3 class="dashed-box-title blue">First Trainer</h3>
                         </div>
-                        <div class="form-grid">
+                        <div class="form-grid three-cols">
+                            <select id="trainer_prefix_1" name="trainer_prefix_1" class="form-input">
+                                <option value="">Prefix</option>
+                                <option value="Mr.">Mr.</option>
+                                <option value="Ms.">Ms.</option>
+                                <option value="Mrs.">Mrs.</option>
+                                <option value="Dr.">Dr.</option>
+                                <option value="Prof.">Prof.</option>
+                            </select>
                             <input type="text" id="trainer_name_1" name="trainer_name_1" class="form-input" placeholder="First Trainer Name" required />
                             <input type="text" id="trainer_designation_1" name="trainer_designation_1" class="form-input" placeholder="Designation" />
                         </div>
@@ -788,7 +855,15 @@
                             </svg>
                             <h3 class="dashed-box-title blue">Second Trainer</h3>
                         </div>
-                        <div class="form-grid">
+                        <div class="form-grid three-cols">
+                            <select id="trainer_prefix_2" name="trainer_prefix_2" class="form-input">
+                                <option value="">Prefix</option>
+                                <option value="Mr.">Mr.</option>
+                                <option value="Ms.">Ms.</option>
+                                <option value="Mrs.">Mrs.</option>
+                                <option value="Dr.">Dr.</option>
+                                <option value="Prof.">Prof.</option>
+                            </select>
                             <input type="text" id="trainer_name_2" name="trainer_name_2" class="form-input" placeholder="Second Trainer Name" />
                             <input type="text" id="trainer_designation_2" name="trainer_designation_2" class="form-input" placeholder="Designation" />
                         </div>
@@ -1193,7 +1268,15 @@
             const div = document.createElement('div');
             div.className = 'dynamic-section';
             div.innerHTML = `
-                <div class="form-grid">
+                <div class="form-grid three-cols">
+                    <select name="senior_official_prefix_${seniorOfficialCount}" class="form-input">
+                        <option value="">Prefix</option>
+                        <option value="Mr.">Mr.</option>
+                        <option value="Ms.">Ms.</option>
+                        <option value="Mrs.">Mrs.</option>
+                        <option value="Dr.">Dr.</option>
+                        <option value="Prof.">Prof.</option>
+                    </select>
                     <input type="text" name="senior_official_${seniorOfficialCount}" class="form-input" placeholder="Senior Official Name" />
                     <input type="text" name="senior_official_designation_${seniorOfficialCount}" class="form-input" placeholder="Designation" />
                 </div>
@@ -1209,7 +1292,15 @@
             const div = document.createElement('div');
             div.className = 'dynamic-section';
             div.innerHTML = `
-                <div class="form-grid">
+                <div class="form-grid three-cols">
+                    <select name="trainer_prefix_${trainerNumber}" class="form-input">
+                        <option value="">Prefix</option>
+                        <option value="Mr.">Mr.</option>
+                        <option value="Ms.">Ms.</option>
+                        <option value="Mrs.">Mrs.</option>
+                        <option value="Dr.">Dr.</option>
+                        <option value="Prof.">Prof.</option>
+                    </select>
                     <input type="text" name="trainer_name_${trainerNumber}" class="form-input" placeholder="Additional Trainer Name" />
                     <input type="text" name="trainer_designation_${trainerNumber}" class="form-input" placeholder="Designation" />
                 </div>
@@ -1257,7 +1348,27 @@
             for (let field of requiredFields) {
                 const element = document.querySelector(`[name="${field}"]`);
                 if (!element || !element.value.trim()) {
-                    alert(`Please fill in the required field: ${field.replace('_', ' ')}`);
+                    let fieldName = field.replace('_', ' ');
+                    if (field === 'cell_name') {
+                        fieldName = 'organization';
+                    }
+                    alert(`Please select/fill in the required field: ${fieldName}`);
+                    return;
+                }
+            }
+            
+            // Validate feedback data (at least one question should have responses)
+            let hasFeedbackData = false;
+            questions.forEach(question => {
+                if (question.stronglyAgree > 0 || question.agree > 0 || question.partiallyAgree > 0) {
+                    hasFeedbackData = true;
+                }
+            });
+            
+            if (!hasFeedbackData) {
+                const proceed = confirm('No feedback data has been entered. The report will be generated without feedback charts. Do you want to continue?');
+                if (!proceed) {
+                    switchTab('feedback-charts');
                     return;
                 }
             }
@@ -1349,11 +1460,49 @@
                 // Initialize image upload functionality
                 initializeImageUploads();
                 
+                // Initialize template selection functionality
+                initializeTemplateSelection();
+                
                 console.log('Type C form initialization completed successfully');
             } catch (error) {
                 console.error('Error during initialization:', error);
             }
         });
+
+        // Template Selection Functionality
+        function initializeTemplateSelection() {
+            const cellSelect = document.getElementById('cell_name');
+            const templateInfo = document.getElementById('template-info');
+            const templateText = document.getElementById('template-text');
+
+            if (cellSelect && templateInfo && templateText) {
+                cellSelect.addEventListener('change', function() {
+                    const selectedOption = this.options[this.selectedIndex];
+                    if (selectedOption.value) {
+                        const templateNumber = selectedOption.getAttribute('data-template');
+                        const organizationName = selectedOption.value;
+                        
+                        templateText.textContent = `Using Template ${templateNumber} for ${organizationName}`;
+                        templateInfo.classList.add('show');
+                        templateInfo.style.display = 'flex';
+                        
+                        // Add hidden input for template selection
+                        let templateInput = document.getElementById('selected_template');
+                        if (!templateInput) {
+                            templateInput = document.createElement('input');
+                            templateInput.type = 'hidden';
+                            templateInput.id = 'selected_template';
+                            templateInput.name = 'selected_template';
+                            cellSelect.parentNode.appendChild(templateInput);
+                        }
+                        templateInput.value = templateNumber;
+                    } else {
+                        templateInfo.classList.remove('show');
+                        templateInfo.style.display = 'none';
+                    }
+                });
+            }
+        }
 
         // Image Upload Functionality from Type A
         let galleryCount = 1;

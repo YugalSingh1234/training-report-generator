@@ -55,6 +55,22 @@ def format_address(line1, line2, line3):
     return '\n'.join(address_parts)
 
 
+def format_address_oneline(line1, line2, line3):
+    """
+    Format address as a single line with all parts separated by commas.
+    Example: "Building Name, Street Address, City, State, PIN"
+    """
+    address_parts = []
+    if line1 and line1.strip():
+        address_parts.append(line1.strip())
+    if line2 and line2.strip():
+        address_parts.append(line2.strip())
+    if line3 and line3.strip():
+        address_parts.append(line3.strip())
+    
+    return ', '.join(address_parts)
+
+
 def format_date(date_string):
     """
     Convert date from YYYY-MM-DD format to DD-MM-YYYY format.
@@ -117,6 +133,11 @@ def process_form_data(request):
         '{{Submitted_to}}': request.form.get('submitted_to'),
         '{{Submitted_by}}': request.form.get('submitted_by'),
         '{{ADDRESS}}': format_address(
+            request.form.get('address_line1', ''),
+            request.form.get('address_line2', ''),
+            request.form.get('address_line3', '')
+        ),
+        '{{ADDRESS_ONELINE}}': format_address_oneline(
             request.form.get('address_line1', ''),
             request.form.get('address_line2', ''),
             request.form.get('address_line3', '')
