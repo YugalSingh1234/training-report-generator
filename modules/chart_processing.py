@@ -108,10 +108,21 @@ def create_chart_image(question_data, chart_path):
                    str(value), va='center', fontsize=10, fontweight='bold')
     
     # Styling
-    ax.spines['top'].set_visible(False)
-    ax.spines['right'].set_visible(False)
-    ax.spines['left'].set_color('#e5e7eb')
-    ax.spines['bottom'].set_color('#e5e7eb')
+    ax.spines['top'].set_visible(True)
+    ax.spines['right'].set_visible(True)
+    ax.spines['left'].set_visible(True)
+    ax.spines['bottom'].set_visible(True)
+    
+    # Add solid border around the chart
+    ax.spines['top'].set_color('#333333')
+    ax.spines['right'].set_color('#333333')
+    ax.spines['left'].set_color('#333333')
+    ax.spines['bottom'].set_color('#333333')
+    ax.spines['top'].set_linewidth(2)
+    ax.spines['right'].set_linewidth(2)
+    ax.spines['left'].set_linewidth(2)
+    ax.spines['bottom'].set_linewidth(2)
+    
     ax.grid(axis='x', alpha=0.3, linestyle='--')
     ax.set_axisbelow(True)
     
@@ -119,10 +130,15 @@ def create_chart_image(question_data, chart_path):
     max_val = max(values) if values else 1
     ax.set_xlim(0, max_val * 1.2 if max_val > 0 else 5)
     
-    # Tight layout and save
+    # Tight layout and save with border
     plt.tight_layout()
+    
+    # Add a border around the entire figure
+    fig.patch.set_edgecolor('#333333')
+    fig.patch.set_linewidth(3)
+    
     plt.savefig(chart_path, dpi=300, bbox_inches='tight', 
-                facecolor='white', edgecolor='none')
+                facecolor='white', edgecolor='#333333')
     plt.close()
 
 
